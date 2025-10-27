@@ -11,4 +11,4 @@ architecture Dataflow of And2 is
     begin
         Y <= A and B;
 
-    end architecture Dataflow;
+end architecture Dataflow;
