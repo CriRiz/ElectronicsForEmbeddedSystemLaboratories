@@ -1,1 +1,2 @@
 Il codice main.c funziona fino a 9600
+Con oscilloscopio 19200 funziona, con il computer no.
