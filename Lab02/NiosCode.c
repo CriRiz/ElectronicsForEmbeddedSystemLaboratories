@@ -23,7 +23,7 @@
 
 // All useful datas
 #define CLK  50
-#define BAUDRATE 2400 // bit/s da cambiare per vedere fino a quando non c'è perdita di informazioni
+#define BAUDRATE 300 // bit/s da cambiare per vedere fino a quando non c'è perdita di informazioni
 #define NBIT 8
 #define NSTOPBIT 1
 #define NOPARITY 0
@@ -119,28 +119,29 @@ int main(){
 
   while (1){
     mask = 0x0;
+	printf("Waiting for Startbit\n");
+
     do{
-      printf("Waiting for Startbit\n");
       val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE);
       val = val & 0x01;
     }while ((val == 1));
     
     //------------------------------------------------------------------------------------------------
     alt_timestamp_start(); //inizio a contare quanto tempo passa
-    while(alt_timestamp()<(nticks/2+1)){} // se è ancora a 0 dopo metà boadrate allora è start bit
+    while(alt_timestamp()<(nticks/2)){} // se è ancora a 0 dopo metà boadrate allora è start bit
     //-------------------------------------------------------------------------------------------------
     val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE); // LETTURA
     val = val & 0x01;
     //-------------------------------------------------------------------------------------------------
     if (val == 0){
-      while(alt_timestamp()<(nticks+1)){}
+      while(alt_timestamp()<(nticks)){}
       for (int i = 0; i < NBIT; i++){
         val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE);
         val = val & 0x01;
 
         mask = mask | (val << i);
 
-        while(alt_timestamp()<(nticks*(i+2)+1)){}
+        while(alt_timestamp()<(nticks*(i+2))){}
       }
       // controllare se stop è 1???
       // parity???
