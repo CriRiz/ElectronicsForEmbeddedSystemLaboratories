@@ -1,0 +1,1 @@
+Il codice main.c funziona fino a 9600
