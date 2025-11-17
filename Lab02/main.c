@@ -82,7 +82,7 @@ int main() {
             // | è l'operatore OR bit a bit
             result |= (c[i] << i);
 
-        printf("Ricevuto: %c (0x%02X)\n", result, result);
+        printf("Ricevuto: %c (0x%02X) (%d)\n", result, result, result);
     }
 
     return 0;
@@ -184,7 +184,7 @@ int main() {
             // | è l'operatore OR bit a bit
             result |= (c[i] << i);
 
-        printf("Ricevuto: %c (0x%02X)\n", result, result);
+        printf("Ricevuto: %c (0x%02X) (%d)\n", result, result, result);
     }
 
     return 0;
@@ -284,11 +284,11 @@ int main() {
         int result = 0;
         for (int i = 0; i < NBIT; i++)
             // | è l'operatore OR bit a bit
-            //result |= (c[i] << i);
+            result |= (c[i] << i);
             IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE,c[i]);
         
 
-        //printf("Ricevuto: %c (0x%02X)\n", result, result);
+        printf("Ricevuto: %c (0x%02X)\n", result, result);
     }
 
     return 0;
