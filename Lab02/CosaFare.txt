@@ -1,0 +1,25 @@
+Lab02
+Project #4
+    Impostare Baudrate a 300
+    Osservare output UART su sariale
+
+Project #5
+    Cambiare Baudrate in:
+        110;
+        150;
+        300;
+        1200;
+        2400;
+        4800;
+        9600;
+        19200;
+        38400;
+        57600;
+        115200.
+    Usare anche oscilloscopio
+
+Project #6
+    BaurRateTX > BaudRateRX
+    BaurRateTX < BaudRateRX
+    nbitpercharTX > nbitpercharRX
+    nbitpercharTX < nbitpercharRX
