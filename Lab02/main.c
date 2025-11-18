@@ -4,15 +4,15 @@
 #include "sys/alt_timestamp.h"
 
 // UART parameters
-#define BAUDRATE    300
+#define BAUDRATE    9600
 #define NBIT        8
 #define NSTOPBIT    1
 #define NOPARITY    0
-#define EVENPARITY  1   
+#define EVENPARITY  1
 #define ODDPARITY   2
 #define PARITY      NOPARITY
 
-#define PROJECT2
+#define PROJECT3
 
 #ifdef PROJECT1
 int main() {
@@ -131,7 +131,7 @@ int main() {
 
         //-----------------------------------------
         // 4. Leggi i bit di DATA
-        
+
             while (alt_timestamp() < sample_times[0]) {}
             val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
             c[0] = val;
@@ -163,7 +163,7 @@ int main() {
             while (alt_timestamp() < sample_times[7]) {}
             val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
             c[7] = val;
-        
+
 
         //-----------------------------------------
         // 5. Leggi STOP BIT e verifica
@@ -184,7 +184,7 @@ int main() {
             // | è l'operatore OR bit a bit
             result |= (c[i] << i);
 
-        printf("Ricevuto: %c (0x%02X) (%d)\n", result, result, result);
+        printf("Ricevuto: %c (0x%02X) (%d) (%d%d%d%d%d%d%d%d)\n", result, result, result, c[7], c[6], c[5], c[4], c[3], c[2], c[1], c[0]);
     }
 
     return 0;
@@ -233,7 +233,7 @@ int main() {
 
         //-----------------------------------------
         // 4. Leggi i bit di DATA
-        
+
             while (alt_timestamp() < sample_times[0]) {}
             val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
             c[0] = val;
@@ -265,7 +265,7 @@ int main() {
             while (alt_timestamp() < sample_times[7]) {}
             val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
             c[7] = val;
-        
+
 
         //-----------------------------------------
         // 5. Leggi STOP BIT e verifica
@@ -282,13 +282,15 @@ int main() {
         // 6. Ricostruisci carattere
         //-----------------------------------------
         int result = 0;
-        for (int i = 0; i < NBIT; i++)
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, 0);
+        for (int j= 0; j < NBIT; j++){
             // | è l'operatore OR bit a bit
-            result |= (c[i] << i);
-            IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE,c[i]);
-        
+            result |= (c[j] << j);
+            IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, c[j]);
+            // mettere timer e forzare pin alto
+        }
 
-        printf("Ricevuto: %c (0x%02X)\n", result, result);
+            printf("Ricevuto: %c (0x%02X) (%d) (%d%d%d%d%d%d%d%d);\n", result, result, result, c[7], c[6], c[5], c[4], c[3], c[2], c[1], c[0]);
     }
 
     return 0;
