@@ -1,4 +1,5 @@
 #include "altera_avalon_pio_regs.h"
+#include "string.h"
 #include "sys/alt_timestamp.h"
 #include "system.h"
 #include <stdint.h>
@@ -68,7 +69,7 @@ int main() {
   printf("STATUS DATA: ");
   print_bin16(stdata);
 
-  printf("COUNT DATA: ");
+  printf("CONTROLLER DATA: ");
   print_bin16(cntdata);
 
   printf("DIV DATA: ");
@@ -91,7 +92,7 @@ int main() {
 
 #endif
 
-#ifndef PROJECT3
+#ifndef PROJECT3_1
 
 #define BAUDRATE 2400
 #define PARITY EVENPPARITY
@@ -105,10 +106,197 @@ int main() {
   volatile uint32_t *ptr_cnt = (volatile uint32_t *)UART_0_CNT_REG;
   volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG;
 
-  // Read status before write something
+  // Configuration
 
-  printf("Status before transmission:");
-  print_bin(*ptr_sts);
+  // The UART core's parity, data bits and stop bits are configurable.
+  // These settings are fixed at system generation time; they cannot
+  // be altered via the register file !!
+
+  // Set baudrate
+  *ptr_div |= (uint16_t)0x5160;
+
+  // 	1st point
+  printf("Status before transmission: ");
+  print_bin16((uint16_t)*ptr_sts);
+
+  // wait trdy
+  while (((*ptr_sts) & (1 << 6)) == 0)
+    ;
+
+  // send msg
+  *ptr_tx = (uint32_t)msg;
+
+  printf("Status after transmission: ");
+  print_bin16((uint16_t)*ptr_sts);
+
+  return 0;
+}
+
+#endif
+
+#ifndef PROJECT3_1_1
+
+#define BAUDRATE 2400
+#define PARITY EVENPPARITY
+
+int main() {
+  char msg = 'f';
+
+  volatile uint32_t *ptr_rx = (volatile uint32_t *)UART_0_RX_REG;
+  volatile uint32_t *ptr_tx = (volatile uint32_t *)UART_0_TX_REG;
+  volatile uint32_t *ptr_sts = (volatile uint32_t *)UART_0_ST_REG;
+  volatile uint32_t *ptr_cnt = (volatile uint32_t *)UART_0_CNT_REG;
+  volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG;
+
+  // Configuration
+
+  // The UART core's parity, data bits and stop bits are configurable.
+  // These settings are fixed at system generation time; they cannot
+  // be altered via the register file !!
+
+  // Set baudrate
+  *ptr_div |= (uint16_t)0x5160;
+
+  // ! USE OSCILLOSCOPE
+
+  for (int i = 0; i < 3; i++) {
+
+    // wait trdy
+    while (((*ptr_sts) & (1 << 6)) == 0)
+      ;
+
+    // send msg
+    *ptr_tx = (uint32_t)(msg + i);
+  }
+
+  return 0;
+}
+
+#endif
+
+#ifndef PROJECT3_2
+
+int main() {
+  char msg = 'f';
+
+  volatile uint32_t *ptr_rx = (volatile uint32_t *)UART_0_RX_REG;
+  volatile uint32_t *ptr_tx = (volatile uint32_t *)UART_0_TX_REG;
+  volatile uint32_t *ptr_sts = (volatile uint32_t *)UART_0_ST_REG;
+  volatile uint32_t *ptr_cnt = (volatile uint32_t *)UART_0_CNT_REG;
+  volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG;
+
+  // Configuration
+
+  // The UART core's parity, data bits and stop bits are configurable.
+  // These settings are fixed at system generation time; they cannot
+  // be altered via the register file !!
+
+  // Set baudrate
+  *ptr_div |= (uint16_t)0x5160;
+
+  // ! USE OSCILLOSCOPE
+
+  printf("Status before transmission: ");
+  print_bin16((uint16_t)*ptr_sts);
+
+  for (int i = 0; i < 2; i++) {
+
+    // wait trdy
+    while (((*ptr_sts) & (1 << 6)) == 0)
+      ;
+
+    // send msg
+    *ptr_tx = (uint32_t)(msg + i);
+  }
+
+  printf("Status after transmission: ");
+  print_bin16((uint16_t)*ptr_sts);
+
+  return 0;
+}
+
+#endif
+
+#ifndef PROJECT3_3
+
+int main() {
+  char msg = 'f';
+
+  volatile uint32_t *ptr_rx = (volatile uint32_t *)UART_0_RX_REG;
+  volatile uint32_t *ptr_tx = (volatile uint32_t *)UART_0_TX_REG;
+  volatile uint32_t *ptr_sts = (volatile uint32_t *)UART_0_ST_REG;
+  volatile uint32_t *ptr_cnt = (volatile uint32_t *)UART_0_CNT_REG;
+  volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG;
+
+  // Configuration
+
+  // The UART core's parity, data bits and stop bits are configurable.
+  // These settings are fixed at system generation time; they cannot
+  // be altered via the register file !!
+
+  // Set baudrate
+  *ptr_div |= (uint16_t)0x5160;
+
+  // ! USE OSCILLOSCOPE
+
+  printf("Status before transmission: ");
+  print_bin16((uint16_t)*ptr_sts);
+
+  for (int i = 0; i < 3; i++) {
+
+    // wait trdy
+    while (((*ptr_sts) & (1 << 6)) == 0)
+      ;
+
+    // send msg
+    *ptr_tx = (uint32_t)(msg + i);
+  }
+
+  printf("Status after transmission: ");
+  print_bin16((uint16_t)*ptr_sts);
+
+  return 0;
+}
+
+#endif
+
+#ifndef PROJECT4_1
+
+int main() {
+  char msg[50] = "My name is Gianluca";
+
+  volatile uint32_t *ptr_rx = (volatile uint32_t *)UART_0_RX_REG;
+  volatile uint32_t *ptr_tx = (volatile uint32_t *)UART_0_TX_REG;
+  volatile uint32_t *ptr_sts = (volatile uint32_t *)UART_0_ST_REG;
+  volatile uint32_t *ptr_cnt = (volatile uint32_t *)UART_0_CNT_REG;
+  volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG;
+
+  // Configuration
+
+  // The UART core's parity, data bits and stop bits are configurable.
+  // These settings are fixed at system generation time; they cannot
+  // be altered via the register file !!
+
+  // Set baudrate
+  *ptr_div |= (uint16_t)0x5160;
+
+  // ! USE OSCILLOSCOPE
+
+  printf("Status before transmission: ");
+  print_bin16((uint16_t)*ptr_sts);
+
+  for (int i = 0; i < strlen(msg); i++) {
+
+    // wait trdy
+    while (((*ptr_sts) & (1 << 6)) == 0)
+      ;
+
+    // send msg
+    *ptr_tx = (uint32_t)(msg[i]);
+  }
+
+  printf("Status after transmission: ");
+  print_bin16((uint16_t)*ptr_sts);
 
   return 0;
 }
