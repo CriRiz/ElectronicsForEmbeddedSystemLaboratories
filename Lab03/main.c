@@ -21,13 +21,11 @@
         divisor 0x08001070
 */
 
-#define BAUDRATE 115200
 #define NBIT 8
 #define NSTOPBIT 1
 #define NOPARITY 0
 #define EVENPARITY 1
 #define ODDPARITY 2
-#define PARITY NOPARITY
 
 #define CLOCK_FREQUENCY 50000000
 
@@ -47,9 +45,12 @@ void print_bin16(uint16_t x) {
   printf("\n");
 }
 
-#define PROJECT5
+#define PROJECT1
 
-#ifndef PROJECT1
+#ifdef PROJECT1
+
+#define BAUDRATE 115200
+#define PARITY NOPARITY
 
 int main() {
   // NIOS II is 32 bit, but UART is mapped on the lower 16 bits
@@ -80,7 +81,41 @@ int main() {
 
 #endif
 
-#ifndef PROJECT2
+#ifdef PROJECT1Cri
+int main(){
+    volatile int *base = (int*) UART_0_BASE;
+    int offRX, offTX, offStat, offContr, offDiv, dataRX, dataTX, dataStat, dataContr, dataDiv;
+    offRX = 0;
+    offTX = 1;
+    offStat = 2;
+    offContr = 3;
+    offDiv = 4;
+
+
+    dataRX = *(base+offRX);
+    dataRX = dataRX & 0x000000ff;
+    dataTX = *(base+offTX);
+    dataTX = dataTX & 0x000000ff;
+    dataStat = *(base+offStat);
+    dataStat = dataStat & 0x00000fff;
+    dataContr = *(base+offContr);
+    dataContr = dataContr & 0x00000fff;
+    dataDiv = *(base+offDiv);
+    printf("Indirizzo base:     0x%08x (%d)\nIndirizzo RXDATA:       0x%08x (%d) - valore = %d\nIndirizzo TXDATA:       0x%08x (%d) - valore = %d\nIndirizzo STATUS:       0x%08x (%d) - valore = 0x%04x\nIndirizzo CONTROL:      0x%08x (%d) - valore = 0x%04x\nIndirizzo DIVISOR:      0x%08x (%d) - valore = %d\n",
+        (int) base, (int) base,
+        (int) offRX, (int) offRX, dataRX,
+        (int) offTX, (int) offTX, dataTX,
+        (int) offStat, (int) offStat, dataStat,
+        (int) offContr, (int) offContr, dataContr,
+        (int) offDiv, (int) offDiv, dataDiv);
+    return 0;
+}
+#endif
+
+#ifdef PROJECT2
+
+#define BAUDRATE 115200
+#define PARITY NOPARITY
 
 int main() {
   volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG;
@@ -92,7 +127,7 @@ int main() {
 
 #endif
 
-#ifndef PROJECT3_1
+#ifdef PROJECT3_1
 
 #define BAUDRATE 2400
 #define PARITY EVENPPARITY
@@ -134,7 +169,7 @@ int main() {
 
 #endif
 
-#ifndef PROJECT3_1_1
+#ifdef PROJECT3_1_1
 
 #define BAUDRATE 2400
 #define PARITY EVENPPARITY
@@ -174,7 +209,7 @@ int main() {
 
 #endif
 
-#ifndef PROJECT3_2
+#ifdef PROJECT3_2
 
 int main() {
   char msg = 'f';
@@ -217,7 +252,7 @@ int main() {
 
 #endif
 
-#ifndef PROJECT3_3
+#ifdef PROJECT3_3
 
 int main() {
   char msg = 'f';
@@ -260,7 +295,7 @@ int main() {
 
 #endif
 
-#ifndef PROJECT4_1
+#ifdef PROJECT4_1
 
 int main() {
   char msg[50] = "My name is Gianluca";
