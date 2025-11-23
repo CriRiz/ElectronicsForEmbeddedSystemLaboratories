@@ -39,22 +39,40 @@ void print_bin(uint8_t x) {
   printf("\n");
 }
 
+void print_bin16(uint16_t x) {
+  for (int i = 15; i >= 0; i--) {
+    printf("%d", (x >> i) & 1);
+  }
+  printf("\n");
+}
+
 #define PROJECT5
 
 #ifndef PROJECT1
 
 int main() {
-  uint8_t rxdata = *((int *)UART_0_RX_REG);
-  uint8_t txdata = *((int *)UART_0_TX_REG);
-  uint8_t stdata = *((int *)UART_0_ST_REG);
-  uint8_t cntdata = *((int *)UART_0_CNT_REG);
-  uint8_t divdata = *((int *)UART_0_DIV_REG);
+  // NIOS II is 32 bit, but UART is mapped on the lower 16 bits
 
-  print_bin(rxdata);
-  print_bin(txdata);
-  print_bin(stdata);
-  print_bin(cntdata);
-  print_bin(divdata);
+  uint16_t rxdata = *((volatile uint32_t *)UART_0_RX_REG) & 0xFFFF;
+  uint16_t txdata = *((volatile uint32_t *)UART_0_TX_REG) & 0xFFFF;
+  uint16_t stdata = *((volatile uint32_t *)UART_0_ST_REG) & 0xFFFF;
+  uint16_t cntdata = *((volatile uint32_t *)UART_0_CNT_REG) & 0xFFFF;
+  uint16_t divdata = *((volatile uint32_t *)UART_0_DIV_REG) & 0xFFFF;
+
+  printf("RX DATA: ");
+  print_bin16(rxdata);
+
+  printf("TX DATA: ");
+  print_bin16(txdata);
+
+  printf("STATUS DATA: ");
+  print_bin16(stdata);
+
+  printf("COUNT DATA: ");
+  print_bin16(cntdata);
+
+  printf("DIV DATA: ");
+  print_bin16(divdata);
 
   return 0;
 }
@@ -87,30 +105,10 @@ int main() {
   volatile uint32_t *ptr_cnt = (volatile uint32_t *)UART_0_CNT_REG;
   volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG;
 
-  // Check if TRDY is 1 (status_register[6])
-  if ((*ptr_sts) & (1 << 6))
-    (*ptr_sts) &= ~(1 << 6);
-  else {
-    (*ptr_sts) |= (1 << 4); // Report overrun TOE (status_register[4])
-  }
+  // Read status before write something
 
-  // no ongoing transmission TMT == 1 (statis_register[5]
-  while (!((*ptr_sts) & (1 << 5)))
-    ;
-
-  // Set busy
-  (*ptr_sts) |= (1 << 6);
-
-  // Start transmission
-  // TX High at fist
-  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
-  // Start bit
-  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
-
-  // TODO COMPLY TO BAUDRATE!!
-  for (int i = 0; i < NBIT; i++) {
-    IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, (msg >> i) & 1);
-  }
+  printf("Status before transmission:");
+  print_bin(*ptr_sts);
 
   return 0;
 }
