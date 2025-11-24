@@ -45,7 +45,7 @@ void print_bin16(uint16_t x) {
   printf("\n");
 }
 
-#define PROJECT1
+#define PROJECT2_2
 
 #ifdef PROJECT1
 
@@ -55,11 +55,11 @@ void print_bin16(uint16_t x) {
 int main() {
   // NIOS II is 32 bit, but UART is mapped on the lower 16 bits
 
-  uint16_t rxdata = *((volatile uint32_t *)UART_0_RX_REG) & 0xFFFF;
-  uint16_t txdata = *((volatile uint32_t *)UART_0_TX_REG) & 0xFFFF;
+  uint16_t rxdata = *((volatile uint32_t *)UART_0_RX_REG) & 0xFFFF; //La maschera non dovrebbe essere 0xFF?
+  uint16_t txdata = *((volatile uint32_t *)UART_0_TX_REG) & 0xFFFF; //La maschera non dovrebbe essere 0xFF?
   uint16_t stdata = *((volatile uint32_t *)UART_0_ST_REG) & 0xFFFF;
   uint16_t cntdata = *((volatile uint32_t *)UART_0_CNT_REG) & 0xFFFF;
-  uint16_t divdata = *((volatile uint32_t *)UART_0_DIV_REG) & 0xFFFF;
+  uint16_t divdata = *((volatile uint32_t *)UART_0_DIV_REG) & 0xFFFF; // Qui non ci dovrebbe essere la maschera
 
   printf("RX DATA: ");
   print_bin16(rxdata);
@@ -112,15 +112,58 @@ int main(){
 }
 #endif
 
-#ifdef PROJECT2
+/*Project #2
+The UART peripheral is customized in Platform Designer to have a configurable baud rate. It means a DIVISOR
+register is present (register 4) to scale the clock frequency. The default value of the DIVISOR at generation time
+is to give a baud rate of 115200.
+1. Compute the value of the DIVISOR to get a baud rate of 115200, starting from a clock frequency of
+50MHz and compare it with the value obtained when reading it in Project #1.
+2. Compute the value of the DIVISOR to get a baud rate of 2400. Write a software program to write the
+new value to the DIVISOR register, read it again, and display the new value to verify that writing was
+correct.
+
+formula: (fck/BR)-1
+
+DIVISOR             433
+BAUDRATE effettivo  115207
+*/
+
+#ifdef PROJECT2_1
 
 #define BAUDRATE 115200
+#define FREQ  50000000
 #define PARITY NOPARITY
 
 int main() {
-  volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG;
+  volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG; // indirizzo di DIVISOR
+  uint16_t divdata = (FREQ/BAUDRATE)-1;
 
-  // TODO
+  *ptr_div = divdata;
+
+  divdata = *((volatile uint32_t *)UART_0_DIV_REG);
+
+  printf("Valore di div modificato: %d (0x%08x)\n", (int) divdata, (int) divdata);
+
+  return 0;
+}
+
+#endif
+
+#ifdef PROJECT2_2
+
+#define BAUDRATE 2400
+#define FREQ  50000000
+#define PARITY NOPARITY
+
+int main() {
+  volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG; // indirizzo di DIVISOR
+  uint16_t divdata = (FREQ/BAUDRATE)-1;
+
+  *ptr_div = divdata;
+
+  divdata = *((volatile uint32_t *)UART_0_DIV_REG);
+
+  printf("Valore di div modificato: %d (0x%08x)\n", (int) divdata, (int) divdata);
 
   return 0;
 }
