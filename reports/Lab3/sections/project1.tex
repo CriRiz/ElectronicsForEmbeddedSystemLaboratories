@@ -1,7 +1,6 @@
+% !TEX root = ../main.tex
+
 \subsection{Project \#1}
-
-
-
 
 \begin{minted}{c}
 int main() {
@@ -30,8 +29,22 @@ int main() {
   return 0;
 }
 \end{minted}
+The printed registers are:
 
+\begin{table}[h]
+	\centering
+	\begin{tabular}{l l}
+		\hline
+		Register        & Value            \\
+		\hline
+		RX DATA         & 0000000000000000 \\
+		TX DATA         & 0000000000000000 \\
+		STATUS DATA     & 0000000001100000 \\
+		CONTROLLER DATA & 0000000010000000 \\
+		DIV DATA        & 0000000110110001 \\
+		\hline
+	\end{tabular}
+	\caption{UART register values observed during the experiment}
+\end{table}
 
-
-
-
+These values can be compared with the configuration shown in Figure~\ref{fig:uart_config},
