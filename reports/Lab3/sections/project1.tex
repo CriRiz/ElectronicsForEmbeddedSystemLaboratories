@@ -1,2 +1,37 @@
 \subsection{Project \#1}
 
+
+
+
+\begin{minted}{c}
+int main() {
+
+  uint16_t rxdata = *((volatile uint32_t *)UART_0_RX_REG) & 0xFFFF;
+  uint16_t txdata = *((volatile uint32_t *)UART_0_TX_REG) & 0xFFFF;
+  uint16_t stdata = *((volatile uint32_t *)UART_0_ST_REG) & 0xFFFF;
+  uint16_t cntdata = *((volatile uint32_t *)UART_0_CNT_REG) & 0xFFFF;
+  uint16_t divdata = *((volatile uint32_t *)UART_0_DIV_REG) & 0xFFFF;
+
+  printf("RX DATA: ");
+  print_bin16(rxdata);
+
+  printf("TX DATA: ");
+  print_bin16(txdata);
+
+  printf("STATUS DATA: ");
+  print_bin16(stdata);
+
+  printf("CONTROLLER DATA: ");
+  print_bin16(cntdata);
+
+  printf("DIV DATA: ");
+  print_bin16(divdata);
+
+  return 0;
+}
+\end{minted}
+
+
+
+
+

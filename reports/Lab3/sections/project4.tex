@@ -1,1 +1,48 @@
 \subsection{Project \#4}
+
+\subsubsection{Subproject \#1}
+In this project is coded a multiple chars transmissions. Previously, messages were sent without waiting the TRDY flag in the control register, which made the procedure prone to communication errors.
+
+\begin{minted}{c}
+int main() {
+  char msg[50] = "My name is Gianluca";
+
+  volatile uint32_t *ptr_tx = (volatile uint32_t *)UART_0_TX_REG;
+  volatile uint32_t *ptr_sts = (volatile uint32_t *)UART_0_ST_REG;
+
+  // Configuration
+
+  // The UART core's parity, data bits and stop bits are configurable.
+  // These settings are fixed at system generation time; they cannot
+  // be altered via the register file !!
+
+  *ptr_div |= (uint16_t)0x5160; // This configures BR to 2400
+
+  printf("Status before transmission: ");
+  print_bin16((uint16_t)*ptr_sts);
+
+  for (int i = 0; i < strlen(msg); i++) {
+
+    // Wait trdy
+    while (((*ptr_sts) & (1 << 6)) == 0);
+
+    // Send msg
+    *ptr_tx = (uint32_t)(msg[i]);
+  }
+
+  printf("Status after transmission: ");
+  print_bin16((uint16_t)*ptr_sts);
+
+  return 0;
+}
+
+\end{minted}
+
+
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{figures/PROJECT_4_1_OSC.png}
+	\end{center}
+\end{figure}
+

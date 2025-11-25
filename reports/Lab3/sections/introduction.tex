@@ -4,31 +4,35 @@
 
 In this laboratory session we handled the UART protocol dealing directly with the hardware register. The Cyclone V implements the UART protocol for both receiving and transmitting data, and it will interface with a terminal emulator program on a PC.
 \begin{figure}[h]
-  \begin{center}
-    \includegraphics[width=0.95\textwidth]{figures/Interface.png}
-  \end{center}
+	\begin{center}
+		\includegraphics[width=0.95\textwidth]{figures/Interface.png}
+	\end{center}
 \end{figure}~\\
 In this laboratory we used the same configuration of the previous laboratory (laboratory \#2) apart from a change in the Board Support Package (BSP) where we disabled ..? and the physical switch \#9 (SW9)  \\
 In this laboratory we configured the UART accordingly to  the following parameters:
 \begin{itemize}
-  \item Baud Rate changed during the projects
-  \item Data bits = 8
-  \item Stop bits = 1
-  \item Parity = Even
+	\item Baud Rate changed during the projects
+	\item Data bits = 8
+	\item Stop bits = 1
+	\item Parity = Even
 \end{itemize}
 In order to handle the UART, these register were manipulated:
 \begin{figure}[h]
-  \begin{center}
-    \includegraphics[width=0.95\textwidth]{figures/UART configuration.png}
-  \end{center}
+	\begin{center}
+		\includegraphics[width=0.95\textwidth]{figures/UART configuration.png}
+	\end{center}
 \end{figure}~\\
 As reported by the \textit{Embedded Peripherals IP User Guide} the addresses to access to these registers are
 \begin{itemize}
-  \item rxdata - 0x08001060
-  \item txdata - 0x08001064
-  \item status - 0x08001068
-  \item control - 0x0800106C
-  \item divisor - 0x08001070
+	\item rxdata - 0x08001060
+	\item txdata - 0x08001064
+	\item status - 0x08001068
+	\item control - 0x0800106C
+	\item divisor - 0x08001070
 \end{itemize}
+
+
+
+
 
 
