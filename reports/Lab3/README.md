@@ -14,8 +14,37 @@ The provided script `install_dependencies.sh` installs everything needed on a De
 ## Installation
 
 ### 1. Make the installer executable
-
 ```bash
 chmod +x install_dependencies.sh
 ./install_dependencies.sh
+```
+
+---
+
+## Usage
+
+### Compile the document once
+```bash
+make compile
+```
+
+### Watch mode with live PDF preview
+
+Opens the PDF in Evince and recompiles automatically on file changes:
+```bash
+make watch
+```
+
+### Clean auxiliary files
+
+Removes temporary LaTeX files (keeps the PDF):
+```bash
+make clean
+```
+
+### Clean everything
+
+Removes all generated files including the PDF:
+```bash
+make cleanall
 ```
