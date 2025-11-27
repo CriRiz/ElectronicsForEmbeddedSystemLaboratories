@@ -1,6 +1,6 @@
 % CREDITS:
 % Comprehensive exam template for ECE Ph.D. students at Queen's University. by Jefferson Silveira
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,8pt]{article}
 \usepackage[left=30mm,top=30mm,right=30mm,bottom=30mm]{geometry}
 \usepackage{etoolbox} %required for cover page
 \usepackage{booktabs}
@@ -23,7 +23,9 @@
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{listing}
 \usepackage{minted}
- \usemintedstyle{emacs}
+\usemintedstyle{emacs}
+\setminted{fontsize=\footnotesize}
+
 \usepackage[english]{babel}
 
 % \renewcommand{\listingscaption}{Algorithm}
@@ -50,8 +52,8 @@
 \pagenumbering{gobble} % remove page numbers (and reset to 1)
 
 \input{front}
-\tableofcontents
-\newpage
+%\tableofcontents
+%\newpage
 %\listoffigures
 %\newpage
 %\listoftables
@@ -65,15 +67,26 @@
 
 % Sections
 \input{sections/introduction}
-\input{sections/section1}
-\input{sections/examples}
-\input{sections/conclusion}
 
-\clearpage % If you want the references in a separate page
-\bibliography{bibliography}
+\section{Projects}
+\input{sections/global.tex}
+\input{sections/project1.tex}
+\input{sections/project2.tex}
+\input{sections/project3.tex}
+\input{sections/project4.tex}
+\input{sections/project5.tex}
+\input{sections/project6.tex}
 
-\clearpage % If you want the appendix in a separate page
-\appendix
-\input{sections/appendix}
+
+% \input{sections/section1}
+% \input{sections/examples}
+% \input{sections/conclusion}
+
+% \clearpage % If you want the references in a separate page
+% \bibliography{bibliography}
+
+% \clearpage % If you want the appendix in a separate page
+% \appendix
+% \input{sections/appendix}
 
 \end{document}
