@@ -45,7 +45,7 @@ void print_bin16(uint16_t x) {
   printf("\n");
 }
 
-#define PROJECT5_2
+#define PROJECT3_3
 
 #ifdef PROJECT1
 
