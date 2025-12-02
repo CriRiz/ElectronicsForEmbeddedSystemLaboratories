@@ -1,6 +1,7 @@
 \subsection{Project \#5}
 
-In this project we increased the baudrate until the transmission from the FPGA to the PC failed. 
+In this project it is performed the reception and transmission of a char over a 8N1 UART implemented driving GPIOs via software. The interface is emulated using the pin configuration shown in [REFERENCE].\\
+This is a time optimized code to enable communication between the PC and the FPGA
 \begin{minted}{c}
 #define BAUDRATE 110
 
@@ -16,6 +17,7 @@ int main() {
     printf("UART RX ready.\n");
 
     while (1) {
+        // RX PHASE
 
         // 1. Wait START bit 
         do {
@@ -131,5 +133,13 @@ int main() {
     return 0;
 }
 \end{minted}
-The baudrate values considered were 110, 150, 300, 1200, 2400, 4800, 9600, 19200.\\
-For the first 2 values of baudrate PuTTY \cite{PuTTY} failed to establish UART connection. We used as alternative tio \cite{tio} and we obtained wrong reading from the FPGA, as evidenced bY..
+The baud rates values considered were 110, 150, 300, 1200, 2400, 4800, 9600, 19200.\\
+PuTTY \cite{PuTTY} failed to establish a UART connection for the lowest values of baud rates. As an  alternative, tio \cite{tio} was used, which successfully connected.
+However, the readings were wrong, as evidenced by (\ref{fig:br110}) and (\ref{fig:br150}). It is clear how the TX and RX are completely different. Why? TODO \\
+For baud rates above 150 and up to 9600, transmission and reception are correct, as represented by (\ref{fig:br300}), (\ref{fig:br1200}), (\ref{fig:br2400}), (\ref{fig:br4800}) and (\ref{fig:br9600}).\\
+Since 19200 the sampling becomes unreliable. From (\ref{fig:br19200comp}) it is easy to understand that:
+\begin{itemize}
+    \item The sampling happens in delay, which results in a bit shifting in the transmission communication. This is most likely caused by software overhead due to busy-waiting loops.
+    \item The TX signal is also delayed. At 19200 baud rates the time bit is $\frac{1}{BR} \approx 52\ \mu s$, but the oscilloscope shows each symbol lasts $\approx 60 \ \mu s$ 
+\end{itemize}
+
