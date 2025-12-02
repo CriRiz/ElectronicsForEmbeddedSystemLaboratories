@@ -315,7 +315,7 @@ int main() {
 
 #ifdef PROJECT5_NEW
 
-#define BAUDRATE 110 // Overwrite old value
+#define BAUDRATE 300 // Overwrite old value
 
 int main() {
 
@@ -476,8 +476,9 @@ int main() {
 
 #ifdef PROJECT5_Cri
 
-#define BAUDRATE 9600
+#define BAUDRATE 19200
 
+#include <stdint.h>
 int main() {
 
     int ticks_per_sec = alt_timestamp_freq();
@@ -486,6 +487,7 @@ int main() {
     int c[NBIT];
     int val;
 
+    IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, 1);
     printf("UART RX ready.\n");
 
     while (1) {
@@ -495,6 +497,7 @@ int main() {
         //-----------------------------------------
         do {
             val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+
         } while (val == 1);
 
         //-----------------------------------------
@@ -515,7 +518,7 @@ int main() {
         alt_timestamp_start();
         int sample_times[NBIT + NSTOPBIT];
         for (int i = 0; i < NBIT + NSTOPBIT; i++)
-            sample_times[i] = (i + 1) * ticks_per_bit;
+        	sample_times[i] = (i + 1) * ticks_per_bit;
 
         //-----------------------------------------
         // 4. Leggi i bit di DATA
@@ -577,6 +580,8 @@ int main() {
         result |= (c[6] << 6);
         result |= (c[7] << 7);
 
+        printf("Ricevuto: %c (0x%02X) (%d) (%d%d%d%d%d%d%d%d);\n", result, result, result, c[7], c[6], c[5], c[4], c[3], c[2], c[1], c[0]);
+
         alt_timestamp_start();
 
         //START BIT
@@ -611,7 +616,6 @@ int main() {
         IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, 1);
         while (alt_timestamp() < ticks_per_bit*10) {}
 
-        printf("Ricevuto: %c (0x%02X) (%d) (%d%d%d%d%d%d%d%d);\n", result, result, result, c[7], c[6], c[5], c[4], c[3], c[2], c[1], c[0]);
     }
 
     return 0;
