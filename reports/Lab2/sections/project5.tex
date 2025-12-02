@@ -1,0 +1,135 @@
+\subsection{Project \#5}
+
+In this project we increased the baudrate until the transmission from the FPGA to the PC failed. 
+\begin{minted}{c}
+#define BAUDRATE 110
+
+int main() {
+    int ticks_per_sec = alt_timestamp_freq();
+    int ticks_per_bit = ticks_per_sec / BAUDRATE;
+
+    int c[NBIT];
+    int val;
+
+    IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, 1);
+    
+    printf("UART RX ready.\n");
+
+    while (1) {
+
+        // 1. Wait START bit 
+        do {
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        } while (val == 1);
+
+        // 2. Start timer and wait half bit time
+        alt_timestamp_start();
+        while (alt_timestamp() < (ticks_per_bit >> 1)) {}
+
+        // Check start bit
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        if (val != 0) continue;
+    
+        // 3. Calculate sampling times (unrolled)
+        alt_timestamp_start();
+        int sample_times[NBIT + NSTOPBIT];
+        for (int i = 0; i < NBIT + NSTOPBIT; i++)
+        	sample_times[i] = (i + 1) * ticks_per_bit;
+
+        // 4. Read DATA bits
+        while (alt_timestamp() < sample_times[0]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        c[0] = val;
+
+        while (alt_timestamp() < sample_times[1]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        c[1] = val;
+
+        while (alt_timestamp() < sample_times[2]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        c[2] = val;
+
+        while (alt_timestamp() < sample_times[3]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        c[3] = val;
+
+        while (alt_timestamp() < sample_times[4]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        c[4] = val;
+
+        while (alt_timestamp() < sample_times[5]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        c[5] = val;
+
+        while (alt_timestamp() < sample_times[6]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        c[6] = val;
+
+        while (alt_timestamp() < sample_times[7]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        c[7] = val;
+
+        // 5. Read STOP BIT e verify
+        while (alt_timestamp() < sample_times[NBIT]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+
+        if (val != 1) {
+            printf("ERROR: invalid stop bit!\n");
+            continue;
+        }
+
+        // 6. Build result
+        int result = 0;
+        result |= (c[0] << 0);
+        result |= (c[1] << 1);
+        result |= (c[2] << 2);
+        result |= (c[3] << 3);
+        result |= (c[4] << 4);
+        result |= (c[5] << 5);
+        result |= (c[6] << 6);
+        result |= (c[7] << 7);
+
+        printf("Ricevuto: %c (0x%02X) (%d) (%d%d%d%d%d%d%d%d);\n", result, result, result, c[7], c[6], c[5], c[4], c[3], c[2], c[1], c[0]);
+
+        // TX PHASE
+        alt_timestamp_start();
+
+        // Start bit
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, 0);
+        while (alt_timestamp() < ticks_per_bit) {}
+
+        // DATA bits
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, c[0]);
+        while (alt_timestamp() < ticks_per_bit*2) {}
+
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, c[1]);
+        while (alt_timestamp() < ticks_per_bit*3) {}
+
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, c[2]);
+        while (alt_timestamp() < ticks_per_bit*4) {}
+
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, c[3]);
+        while (alt_timestamp() < ticks_per_bit*5) {}
+
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, c[4]);
+        while (alt_timestamp() < ticks_per_bit*6) {}
+
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, c[5]);
+        while (alt_timestamp() < ticks_per_bit*7) {}
+
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, c[6]);
+        while (alt_timestamp() < ticks_per_bit*8) {}
+
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, c[7]);
+        while (alt_timestamp() < ticks_per_bit*9) {}
+
+        // Stop bit
+        IOWR_ALTERA_AVALON_PIO_DATA(NIOS_UARTTX_BASE, 1);
+        while (alt_timestamp() < ticks_per_bit*10) {}
+
+    }
+    return 0;
+}
+\end{minted}
+The baudrate values considered were 110, 150, 300, 1200, 2400, 4800, 9600, 19200.\\
+For the first 2 values of baudrate PuTTY \cite{PuTTY} failed to establish UART connection. We used as alternative tio \cite{tio} and we obtained wrong reading from the FPGA, as evidenced bY..
