@@ -1,2 +1,117 @@
 \subsection{Project \#5}
+This project deals again with the UART peripheral of the DE1-Soc board, this time polling technique was chosen. 
+So as requested the baudrate was configured to 2400 and the interrupts were disabled through CONTROL register.
+To monitor the device PuTTY can be used, without flow control and obiously configured to the same baudrate of UART(PuTTY config: 2400,8E1).
 
+\subsubsection{Scenario \#1}
+The code below can read the ASCII values present in RXDATA register and print the corresponding characters to stdout.
+It can be noticed that it continuosly check the RRDY bit in the STATUS register in order to see if data are available.
+
+\begin{minted}{c}
+#define UART_0_BASE 0x8001060
+#define UART_0_RX_REG (UART_0_BASE + 0)
+#define UART_0_TX_REG (UART_0_BASE + 4)
+#define UART_0_ST_REG (UART_0_BASE + 8)
+#define UART_0_CNT_REG (UART_0_BASE + 12)
+#define UART_0_DIV_REG (UART_0_BASE + 16)
+
+#define RRDY_MASK       (1 << 7)   // Receive Ready
+#define TRDY_MASK       (1 << 6)   // Transmit Ready
+
+int main() {
+  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
+  volatile uint32_t *ptr_rx  = (volatile uint32_t *)UART_0_RX_REG;
+  volatile uint32_t *ptr_tx  = (volatile uint32_t *)UART_0_TX_REG;
+  volatile uint32_t *ptr_sts = (volatile uint32_t *)UART_0_ST_REG;
+  volatile uint32_t *ptr_cnt = (volatile uint32_t *)UART_0_CNT_REG;
+  volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG;
+
+  //baudrate = 2400
+  uint16_t divdata = 0x5160;
+  *ptr_div = divdata;
+
+  //disable interrupt
+  *ptr_cnt = 0;
+
+  printf("UART configured at 2400 baud, 8E1, polling.\n");
+
+  while (1) {
+      //print STATUS before reading
+      printf("STATUS before RX: ");
+
+      print_bin16((uint16_t)(*ptr_sts));
+      //Polling: wait for RRDY to be set
+
+      while (((*ptr_sts) & RRDY_MASK) == 0) {
+          // busy wait
+      }
+      IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
+      //read RXDATA
+      uint8_t rxchar = (uint8_t)(*ptr_rx & 0xFF);
+      IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
+
+      //print STATUS after the reading
+      printf("STATUS after RX:  ");
+      print_bin16((uint16_t)(*ptr_sts));
+
+      //print the received character
+      printf("Received Character: '%c' (ASCII=%d)\n", rxchar, rxchar);
+  }
+  return 0;
+}
+\end{minted}
+As shown above, the program prints the status register before and after the reading.
+
+\begin{minted}{text}
+  STATUS before RX: 0000000111111100
+  STATUS after RX:  0000000101111100
+  Received Character: 'g' (ASCII=103)
+\end{minted}
+
+\subsubsection{Scenario \#2}
+Now the above exercise is repeated but this time assuming the RRDY bit of the status register is always set and so it is not necessary to check çit.
+
+\begin{minted}{c}
+#define RRDY_MASK       (1 << 7)   // Receive Ready
+#define TRDY_MASK       (1 << 6)   // Transmit Ready
+
+int main() {
+  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
+  volatile uint32_t *ptr_rx  = (volatile uint32_t *)UART_0_RX_REG;
+  volatile uint32_t *ptr_sts = (volatile uint32_t *)UART_0_ST_REG;
+  volatile uint32_t *ptr_cnt = (volatile uint32_t *)UART_0_CNT_REG;
+  volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG;
+
+  //baudrate 2400
+  uint16_t divdata = 0x5160;
+  *ptr_div = divdata;
+
+  //Disable interrupt
+  *ptr_cnt = 0;
+
+  printf("UART configured at 2400 baud, 8E1, NO polling RRDY.\n");
+
+  int freq = alt_timestamp_freq();
+  const int DELAY_TICKS = freq/2;
+
+  while (1) {
+
+    IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
+
+    /*alt_timestamp_start();
+    while (alt_timestamp() < DELAY_TICKS);
+    */
+
+    //read RXDATA without checking RRDY
+    uint8_t rxchar = (uint8_t)(*ptr_rx & 0xFF);
+    IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
+
+    //print received character
+    printf("Received Character: '%c' (ASCII=%d)\n", rxchar, rxchar);
+  }
+
+  return 0;
+}
+\end{minted}
+
+\subsubsection{Scenario \#3}

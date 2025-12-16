@@ -1,4 +1,4 @@
-# LaTeX Project Setup
+make # LaTeX Project Setup
 
 This project uses LaTeX with the **minted** package. That means you must have:
 
