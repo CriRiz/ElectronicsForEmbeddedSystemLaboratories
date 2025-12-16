@@ -1,9 +1,8 @@
 \subsection{Project \#4}
-
-\subsubsection{Subproject \#1}
+\subsubsection{Scenario \#1}
 This project implements multiple chars transmissions. Previously, messages were sent without waiting the TRDY flag in the control register, which made the procedure prone to communication errors.
 
-\begin{minted}{c}
+\begin{minted}[linenos]{c}
 int main() {
   char msg[50] = "My name is Gianluca";
 
@@ -36,9 +35,4 @@ int main() {
   return 0;
 }
 \end{minted}
-By setting the time scale to 10 ms, as shown below, the entire UART transmission is visible
-\begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=0.5\textwidth]{figures/PROJECT_4_1_OSC.png}
-	\end{center}
-\end{figure}
+By setting the time scale to 10 ms, as shown below, the entire UART transmission is visible (\ref{fig:proj4})
