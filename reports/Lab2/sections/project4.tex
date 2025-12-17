@@ -1,0 +1,187 @@
+\subsection{Project \#4}
+
+The project 4's main purpose is to create an UART receiver with software and test it sending characters from computer tool PuTTY on the Cyclone V board.\\
+
+To do so we first define the following costans at the beginning of the code:
+
+\begin{listing}[ht]
+\begin{minted}[linenos]{c}
+#define NBIT        8
+#define NSTOPBIT    1
+#define NOPARITY    0
+#define EVENPARITY  1
+#define ODDPARITY   2
+#define PARITY      NOPARITY
+\end{minted}
+\caption{Constants}
+\label{lst:Const}
+\end{listing}
+
+In this project we do not use a parity bit, so each transmission consists of exactly 10 bits: 1 start bit, 8 data bits, and 1 stop bit.
+
+\subsubsection{Version \#1}
+
+In order to create an UART receiver we focus on the UART's message structure.
+
+\begin{listing}[ht]
+\begin{minted}[linenos]{c}
+#define BAUDRATE 300
+
+int main() {
+
+    int ticks_per_sec = alt_timestamp_freq();
+    int ticks_per_bit = ticks_per_sec / BAUDRATE;
+
+    int c[NBIT];
+    int val;
+
+    printf("UART RX ready.\n");
+
+    while (1) {
+
+        do {
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        } while (val == 1);
+
+        alt_timestamp_start();
+        while (alt_timestamp() < (ticks_per_bit >> 1)) {}
+
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        if (val != 0) {
+            continue;
+        }
+        alt_timestamp_start();
+        int sample_times[NBIT + NSTOPBIT];
+        for (int i = 0; i < NBIT + NSTOPBIT; i++)
+            sample_times[i] = (i + 1) * ticks_per_bit;
+
+        for (int i = 0; i < NBIT; i++) {
+            while (alt_timestamp() < sample_times[i]) {}
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+            c[i] = val;        // c[0] = LSB
+        }
+
+        while (alt_timestamp() < sample_times[NBIT]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+
+        if (val != 1) {
+            printf("ERRORE: stop bit non valido!\n");
+            continue;
+
+        int result = 0;
+        for (int i = 0; i < NBIT; i++)
+            // | è l'operatore OR bit a bit
+            result |= (c[i] << i);
+
+        printf("Ricevuto: %c (0x%02X) (%d)\n", result, result, result);
+    }
+
+    return 0;
+}
+\end{minted}
+\caption{Version\_1}
+\label{lst:V1}
+\end{listing}
+
+In the code, we first wait for the start bit. The default state of the UART line is 1, so the start bit is represented by 0. 
+To ensure that it is not an error, the code rereads the line state after half a bit period (see line 22 of \ref{lst:V1}). 
+If it is indeed the start bit, we compute the sampling times and then begin sampling the other 8 data bits of the character encoded in ASCII, as shown in the for loop on line 31.\\
+In line 38 in the end we make sure that the trasmission ends with a stop bit (equal to 1) and then we rebuild the character (for loop in line 45).\\
+
+\subsection{Version \#2}
+In \ref{lst:V1} the code use a for loop to read the 8 char bit trasmitted by UART. The branch instructions used by for loop can slow down execution.\\
+For this reason the \ref{lst:V2} uses loop unrolling to improuve performance:
+
+\begin{listing}[ht]
+\begin{minted}[linenos]{c}
+#define BAUDRATE 300
+
+int main() {
+
+    int ticks_per_sec = alt_timestamp_freq();
+    int ticks_per_bit = ticks_per_sec / BAUDRATE;
+
+    int c[NBIT];
+    int val;
+
+    printf("UART RX ready.\n");
+
+    while (1) {
+
+        do {
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        } while (val == 1);
+
+        alt_timestamp_start();
+        while (alt_timestamp() < (ticks_per_bit >> 1)) {}
+
+        // Controllo sull'effettivo start
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+        if (val != 0) {
+            continue;
+        }
+
+        alt_timestamp_start();
+        int sample_times[NBIT + NSTOPBIT];
+        for (int i = 0; i < NBIT + NSTOPBIT; i++)
+            sample_times[i] = (i + 1) * ticks_per_bit;
+
+        //-----------------------------------------
+        // 4. Leggi i bit di DATA - loop unrolling
+
+            while (alt_timestamp() < sample_times[0]) {}
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+            c[0] = val;
+
+            while (alt_timestamp() < sample_times[1]) {}
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+            c[1] = val;
+
+            while (alt_timestamp() < sample_times[2]) {}
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+            c[2] = val;
+
+            while (alt_timestamp() < sample_times[3]) {}
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+            c[3] = val;
+
+            while (alt_timestamp() < sample_times[4]) {}
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+            c[4] = val;
+
+            while (alt_timestamp() < sample_times[5]) {}
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+            c[5] = val;
+
+            while (alt_timestamp() < sample_times[6]) {}
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+            c[6] = val;
+
+            while (alt_timestamp() < sample_times[7]) {}
+            val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+            c[7] = val;
+
+        while (alt_timestamp() < sample_times[NBIT]) {}
+        val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
+
+        if (val != 1) {
+            printf("ERRORE: stop bit non valido!\n");
+            continue;
+        }
+
+        int result = 0;
+        for (int i = 0; i < NBIT; i++)
+            // | è l'operatore OR bit a bit
+            result |= (c[i] << i);
+
+        printf("Ricevuto: %c (0x%02X) (%d) (%d%d%d%d%d%d%d%d)\n", result, result, result, c[7], c[6], c[5], c[4], c[3], c[2], c[1], c[0]);
+    }
+
+    return 0;
+}
+\end{minted}
+\caption{Version\_2}
+\label{lst:V2}
+\end{listing}
+
+Thanks to this approach the compiler avoids repeated branch instructions, making the code faster and more efficient than \ref{lst:V1}.
