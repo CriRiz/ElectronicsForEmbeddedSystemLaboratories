@@ -2,7 +2,7 @@
 
 The project 4's main purpose is to create an UART receiver with software and test it sending characters from computer tool PuTTY on the Cyclone V board.\\
 
-To do so we first define the following costans at the beginning of the code:
+To do so it been first defined the following costans at the beginning of the code:
 
 \begin{listing}[ht]
 \begin{minted}[linenos]{c}
@@ -17,11 +17,11 @@ To do so we first define the following costans at the beginning of the code:
 \label{lst:Const}
 \end{listing}
 
-In this project we do not use a parity bit, so each transmission consists of exactly 10 bits: 1 start bit, 8 data bits, and 1 stop bit.
+In this project it was not used a parity bit, so each transmission consists of exactly 10 bits: 1 start bit, 8 data bits, and 1 stop bit.
 
 \subsubsection{Version \#1}
 
-In order to create an UART receiver we focus on the UART's message structure.
+In order to create an UART receiver the focus is on the UART's message structure.
 
 \begin{listing}[ht]
 \begin{minted}[linenos]{c}
@@ -83,10 +83,10 @@ int main() {
 \label{lst:V1}
 \end{listing}
 
-In the code, we first wait for the start bit. The default state of the UART line is 1, so the start bit is represented by 0. 
+The code first waits for the start bit. The default state of the UART line is 1, so the start bit is represented by 0. 
 To ensure that it is not an error, the code rereads the line state after half a bit period (see line 22 of \ref{lst:V1}). 
-If it is indeed the start bit, we compute the sampling times and then begin sampling the other 8 data bits of the character encoded in ASCII, as shown in the for loop on line 31.\\
-In line 38 in the end we make sure that the trasmission ends with a stop bit (equal to 1) and then we rebuild the character (for loop in line 45).\\
+If it is indeed the start bit, it computes the sampling times and then begins sampling the other 8 data bits of the character encoded in ASCII, as shown in the for loop on line 31.\\
+In line 38 in the end it makes sure that the trasmission ends with a stop bit (equal to 1) and then it rebuilds the character (for loop in line 45).\\
 
 \subsection{Version \#2}
 In \ref{lst:V1} the code use a for loop to read the 8 char bit trasmitted by UART. The branch instructions used by for loop can slow down execution.\\
