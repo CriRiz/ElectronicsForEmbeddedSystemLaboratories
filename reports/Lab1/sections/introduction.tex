@@ -1,1 +1,16 @@
 \section{Introduction}
+
+The transition from theoretical digital logic to physical hardware implementation requires a deep understanding of the \textbf{FPGA (Field-Programmable Gate Array) design flow}. While an AND gate represents the most fundamental building block of digital systems, its implementation on a professional-grade device like the \textbf{Intel Cyclone V} involves complex considerations regarding synthesis, physical placement, and timing constraints.
+
+This project serves as a comprehensive introduction to the modern digital design cycle using \textbf{VHDL/Verilog} and professional CAD tools. The primary objective is to move beyond simple functional verification and explore the critical relationship between \textbf{logical design} and \textbf{physical performance}.
+
+\subsection*{Key Objectives}
+The design process is divided into three critical phases:
+
+\begin{itemize}
+    \item \textbf{Functional Verification:} Developing the RTL description and utilizing a dedicated testbench to ensure logical correctness through simulation.
+    \item \textbf{Physical Implementation:} Mapping the design onto the DE1-SoC board, utilizing tools like the \textit{Pin Planner} and \textit{Chip Planner} to visualize how logic elements and I/O blocks are distributed across the silicon.
+    \item \textbf{Timing Optimization:} Analyzing \textbf{propagation delay} ($t_{pd}$) by experimenting with various pin assignments and timing constraints.
+\end{itemize}
+
+By comparing different hardware configurations—such as automatic vs. manual pin placement and varying distances between I/O pins—this project demonstrates how physical routing and synthesis constraints directly impact the speed and reliability of a digital circuit.
