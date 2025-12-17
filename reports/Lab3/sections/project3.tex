@@ -1,6 +1,5 @@
 \subsection{Project \#3}
 The goal of this project is to explore the UART transmission STATUS register behaviour in different scenarios.
-
 \subsubsection{Scenario \#1}
 In the first scenario, we aim to send a single character through the transmission data register, as we can see in line 30 of the code in Figure \ref{lst:P31}, and then compare the STATUS register before and after the transmission, as illustrated in lines 23–24 and 32–33 in the code in Figure \ref{lst:P31}.
 
@@ -45,10 +44,8 @@ int main() {
 \end{minted}
 \caption{SCENARIO\_3\_1}
 \label{lst:P31}
-\end{listing}
-
+\end{listing}~\\
 The experiment's terminal output is the following:
-
 \begin{listing}[ht]
 \begin{minted}{text}
 Status before transmission: 0000000111101000
@@ -56,8 +53,7 @@ Status after transmission: 0000000111001000
 \end{minted}
 \caption{Terminal output}
 \label{lst:P31O}
-\end{listing}
-
+\end{listing}~\\
 As we know, the STATUS register illustrates the connection's current state through the use of flags.  
 In the first sampling, the active flags are:
 \begin{itemize}
@@ -67,7 +63,6 @@ In the first sampling, the active flags are:
     \item \textbf{RRDY}: stands for "Receiver Ready" and indicates that the receiver data register is empty, ready to be overwritten by a new byte;
     \item \textbf{E}: stands for "Error" and indicates a general error.
 \end{itemize}
-
 In the second sampling, the active flags are:
 \begin{itemize}
     \item ROE;
@@ -75,22 +70,16 @@ In the second sampling, the active flags are:
     \item RRDY;
     \item E.
 \end{itemize}
-
 We can observe that the TRDY flag is no longer active because we wrote our character in the transmission data register in line 30 of our code in Figure \ref{lst:P31}.
-
 In Figure \ref{fig:P31OS}, we can see the transmission of our character through the UART.\\
 Measuring the distance between two wave fronts, we can understand the real UART clock frequency. In our case:
-
 \begin{equation}
     f_{clkUART} = \frac{1}{1 * \frac{2}{5} \cdot 10^{-3}} = 2500\, \text{Hz}
 \end{equation}
-
 It is slightly different from the effective one, which is 2400 Hz.
-
 \subsubsection{Scenario \#2}
 In the second scenario, we want to observe the behaviour of the STATUS register during two consecutive transmissions. To do so, we wrote the following code:
-
-\begin{listing}[ht]
+\begin{listing}[h]
 \begin{minted}[linenos]{c}
 int main() {
   char msg = 'f';
@@ -127,10 +116,8 @@ int main() {
 \caption{SCENARIO\_3\_2}
 \label{lst:P32}
 \end{listing}
-
-In the code, we send two consecutive characters ("f" and "g" in lines 24–25) through the UART without waiting for the previous transmission to finish.  
+In the code, we send two consecutive characters ("f" and "g" in lines 24–25) through the UART without waiting for the previous transmission to finish.\\
 The output is:
-
 \begin{listing}[ht]
 \begin{minted}{text}
 Status before transmission: 0000000111111100
@@ -139,7 +126,6 @@ Status after transmission: 0000000110011100
 \caption{Terminal output}
 \label{lst:P32O}
 \end{listing}
-
 In the first sampling, the active flags are:
 \begin{itemize}
     \item \textbf{BRK}: stands for "Break Detect" and takes care of the UART's reception. It appears because we neither read the receiver data register nor reset our UART through the CONTROL register;
@@ -150,7 +136,6 @@ In the first sampling, the active flags are:
     \item RRDY;
     \item E.
 \end{itemize}
-
 While in the second sampling we have only these flags active:
 \begin{itemize}
     \item BRK;
@@ -158,15 +143,12 @@ While in the second sampling we have only these flags active:
     \item TOE;
     \item RRDY;
     \item E.
-\end{itemize}
-
+\end{itemize}~\\
 We can say that we have the same warnings as in code \ref{lst:P31}, plus TOE and BRK because of the lack of control and reset of the UART transmission in the code.\\
 In fact, we overwrite the second character onto the first one because we send it too fast and without checking the TRDY flag.\\
 However, in the oscilloscope image in \ref{fig:P32OS}, we can observe that the board successfully transmitted the two characters, and between them we can observe only the parity bit of "f" and the start bit of "g".
-
 \subsubsection{Scenario \#3}
 In the last scenario, we repeat Scenario 2 but send not two but three characters (as we can see in lines 24–25–26 of \ref{lst:P33}).
-
 \begin{listing}[ht]
 \begin{minted}[linenos]{c}
 int main() {
@@ -205,7 +187,6 @@ int main() {
 \caption{SCENARIO\_3\_3}
 \label{lst:P33}
 \end{listing}
-
 The terminal outputs the following data:
 \begin{listing}[ht]
 \begin{minted}{text}
@@ -215,8 +196,6 @@ Status after transmission: 0000000110011100
 \caption{Terminal output}
 \label{lst:P33O}
 \end{listing}
-
 We observe the same flag activations as in Scenario 2.  
 However, by looking at the oscilloscope trace in Figure \ref{fig:P33OS}, we notice that the UART does not transmit the character "g" after "f", but instead sends "h".\\
-
 This happens because the UART transmits only two characters: the first one ("f") and the last value written into the transmission register ("h"). The intermediate character ("g") is overwritten before the UART becomes ready to load a new byte. Since the code does not check the TRDY flag before writing to the transmission register, the second write occurs while the UART is still busy, causing the byte "g" to be lost.

@@ -34,5 +34,8 @@ minted*
 # --- VS Code ---
 .vscode/
 
+# --- BUILD ---
+build/
+
 # --- latexmk ---
 latexmkrc

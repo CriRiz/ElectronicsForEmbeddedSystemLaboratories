@@ -1,0 +1,38 @@
+# --- LaTeX junk ---
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.snm
+*.toc
+*.run.xml
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# --- pdfLaTeX output ---
+*.pdf
+
+# --- minted cache ---
+_minted*
+minted*
+
+# --- editor garbage ---
+*.swp
+*.swo
+*~
+.DS_Store
+
+# --- VS Code ---
+.vscode/
+
+# --- latexmk ---
+latexmkrc

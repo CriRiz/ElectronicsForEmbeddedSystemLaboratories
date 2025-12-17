@@ -1,0 +1,20 @@
+\subsection{Project \#1}
+To start the experience, the iconic hello world program to check that it is running.
+
+\begin{minted}{c}
+#include <stdio.h>
+#include "system.h"
+#include "sys/alt_timestamp.h"
+#include "altera_avalon_pio_regs.h"
+
+int main()
+{
+  printf("Hello Sandro, Gianluca, Pietro and Cri!\n");
+
+  return 0;
+}
+\end{minted}
+The above program is running on the hardware described in VHDL files and flashed to the fpga.
+But how the Software and Hardware are able to work together after the flash of the cpu project?
+Everything is done by the BSP that work as an Hardware Abstraction Layer which is generated based on the instantiation of the different peripherals and components
+with other informations, all available on the SOPC file, in this case the nios\_hps\_system.sopcinfo.
