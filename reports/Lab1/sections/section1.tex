@@ -9,3 +9,22 @@ Once the design is functionally validated, pin assignments are performed using t
 Several experimental configurations are considered, including automatic pin assignment with and without timing constraints, manual assignment of pins placed close to each other, and assignment of pins located far apart on the device. In some cases, explicit timing constraints are applied and progressively tightened to study how the synthesis and fitting tools adapt the placement to meet the required timing. The resulting worst-case propagation delays are analyzed and compared across the different configurations.
 
 Finally, the design is programmed onto the Cyclone~V FPGA on the DE1-SoC board and tested on real hardware. This project highlights the relationship between logical design, physical implementation, and timing performance, providing practical insight into FPGA-based digital system design.
+
+\subsection{Propagation delay measurement}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Input 1 pin & Input 2 pin & Output pin & Constraints ($t_{pd}$) & Worst case ($t_{pd}$) \\
+        \hline
+        PIN\_AH28 & PIN\_AC25 & PIN\_AD25 & 5.965 & 6.162 \\
+        PIN\_AH28 & PIN\_AC25 & PIN\_AD25 & 5.965 & 5.965 \\
+        PIN\_AA18 & PIN\_Y17  & PIN\_AK22 & 5.965 & 5.965 \\
+        PIN\_AD9  & PIN\_C13  & PIN\_10   & 5.965 & 5.965 \\
+        PIN\_AD9  & PIN\_C13  & PIN\_10   & 5.965 & 5.965 \\
+        \hline
+    \end{tabular}
+    \label{tab:tpd}
+\end{table}
+
