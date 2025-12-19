@@ -1,1 +1,8 @@
 \section{Introduction}
+
+This laboratory session focuses on the design, configuration, and implementation of an embedded system based on the \textbf{Nios II soft-core processor} hosted on the \textbf{Intel Cyclone V FPGA} (DE1-SoC board). The primary objective is to establish a functional communication bridge between the FPGA-based processor and a desktop PC using the \textbf{UART (Universal Asynchronous Receiver-Transmitter)} protocol.
+
+Unlike high-level systems where communication is handled by complex operating system drivers, this project explores the "bit-banging" approach and low-level hardware interaction. By utilizing \textbf{General Purpose I/O (GPIO)} pins to sample and drive the UART signals, the project emphasizes the critical relationship between software execution speed and physical signal timing.
+
+\subsection*{Educational Objectives}
+The experimental path leads from a basic "Hello World" verification to the implementation of a custom UART receiver capable of operating at various baud rates. A fundamental aspect of the laboratory is the \textbf{physical validation} of signals using an oscilloscope. This allows for the direct observation of start/stop bits, parity, and propagation delays, providing practical insight into the challenges of real-time embedded systems, such as clock accuracy and interrupt-free loop timing.
