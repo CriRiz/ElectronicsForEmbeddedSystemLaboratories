@@ -90,7 +90,7 @@ In line 38 in the end it makes sure that the trasmission ends with a stop bit (e
 
 \subsection{Version \#2}
 In \ref{lst:V1} the code use a for loop to read the 8 char bit trasmitted by UART. The branch instructions used by for loop can slow down execution.\\
-For this reason the \ref{lst:V2} uses loop unrolling to improuve performance:
+For this reason the \ref{lst:V2} uses loop unrolling to improve performance:
 
 \begin{listing}[ht]
 \begin{minted}[linenos]{c}

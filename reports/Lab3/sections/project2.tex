@@ -1,3 +1,19 @@
 \subsection{Project \#2}
 
+To compute the proper DIVISOR value for a specific baud rate it is used:
+\begin{align}
+    DIVISOR = \frac{f_{clk}}{BR} - 1
+\end{align}
+Provided $f_{clk} = 50\ MHz$ and $BR = 115200$, the DIVISOR will be $0x1B1$.\\
+In the second scenario (BR = 2400), the divisor will be higher: $0x1428$.\\
+In the example below is shown how to set the BR in the UART\_DIVISOR register.
+\begin{minted}{c}
+int main() {
+  volatile uint32_t *ptr_div = (volatile uint32_t *)UART_0_DIV_REG; // DIVISOR address
+  uint16_t divdata = (FREQ/BAUDRATE)-1;
+  *ptr_div = divdata;
+  
+  return 0;
+}
+\end{minted}
 

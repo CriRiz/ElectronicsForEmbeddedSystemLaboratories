@@ -1,8 +1,7 @@
 \subsection{Project \#3}
 The goal of this project is to explore the UART transmission STATUS register behaviour in different scenarios.
 \subsubsection{Scenario \#1}
-In the first scenario, the aim is to send a single character through the transmission data register, as it can be seen in line 30 of the code in Figure \ref{lst:P31}, and then compare the STATUS register before and after the transmission, as illustrated in lines 23–24 and 32–33 in the code in Figure \ref{lst:P31}.
-
+In the first scenario, the aim is to send a single character through the transmission data register, as it can be seen in line 30 of the code in Listing \ref{lst:P31}, and then compare the STATUS register before and after the transmission, as illustrated in lines 23–24 and 32–33 in the code in the Listing \ref{lst:P31}.
 \begin{listing}[ht]
 \begin{minted}[linenos]{c}
 #define BAUDRATE 2400
@@ -70,7 +69,7 @@ In the second sampling, the active flags are:
     \item RRDY;
     \item E.
 \end{itemize}
-It can be observed that the TRDY flag is no longer active after the character is written to the transmission data register in line 30 of the code (Figure \ref{lst:P31}).
+It can be observed that the TRDY flag is no longer active after the character is written to the transmission data register in line 30 of the code (Listing \ref{lst:P31}).
 Figure \ref{fig:P31OS} shows the transmission of the character via the UART.
 By measuring the distance between two waveforms, the actual UART clock frequency can be determined. In our case:
 \begin{equation}
