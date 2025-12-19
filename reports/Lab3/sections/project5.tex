@@ -34,7 +34,6 @@ int main() {
   *ptr_cnt = 0;
 
   printf("UART configured at 2400 baud, 8E1, polling.\n");
-
   while (1) {
       //print STATUS before reading
       printf("STATUS before RX: ");
@@ -67,13 +66,12 @@ As shown above, the program prints the status register before and after the read
   STATUS after RX:  0000000101111100
   Received Character: 'g' (ASCII=103)
 \end{minted}
+On the oscilloscope are plotted first the UARTRX and second the RRDY pulse, the latter is received at the end of the full transmission(figure \ref{fig:P51OS}).
 
 \subsubsection{Scenario \#2}
 Now the above exercise is repeated but this time assuming the RRDY bit of the status register is always set and so it is not necessary to check çit.
 
 \begin{minted}{c}
-#define RRDY_MASK       (1 << 7)   // Receive Ready
-#define TRDY_MASK       (1 << 6)   // Transmit Ready
 
 int main() {
   IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
@@ -90,12 +88,10 @@ int main() {
   *ptr_cnt = 0;
 
   printf("UART configured at 2400 baud, 8E1, NO polling RRDY.\n");
-
   int freq = alt_timestamp_freq();
   const int DELAY_TICKS = freq/2;
 
   while (1) {
-
     IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
 
     /*alt_timestamp_start();
@@ -109,9 +105,7 @@ int main() {
     //print received character
     printf("Received Character: '%c' (ASCII=%d)\n", rxchar, rxchar);
   }
-
   return 0;
 }
 \end{minted}
-
-\subsubsection{Scenario \#3}
+Looking to the oscilloscope, a pulse is received after every full transmission(figure \ref{fig:P52OS}).
