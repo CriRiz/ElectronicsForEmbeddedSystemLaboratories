@@ -1,14 +1,11 @@
 \subsection{Project \#1: AND Gate Design and Timing Analysis}
 
-Project~\#1 focuses on the design and implementation of a simple AND logic gate using a hardware description language (VHDL or Verilog).
 
-The design process begins with the creation of a new project and the development of the source files, including both the logic description of the AND gate and a dedicated testbench. After checking the syntax and compiling the project, the functionality of the design is verified through simulation, ensuring correct logical behavior before hardware implementation.
+\noindent Project~\#1 involves designing and producing a basic \textbf{AND logic gate} using a hardware description language (\textbf{VHDL} or \textbf{Verilog}). The first step involves initializing a new project and preparing the source files, which contain both the logic description for the gate and a corresponding \textbf{testbench}. After performing a syntax check and compiling the project, the design logic is verified via \textbf{simulation} to ensure it behaves as intended before hardware implementation.
 
-Once the design is functionally validated, pin assignments are performed using the Pin Planner, and the physical implementation is analyzed through the Chip Planner to observe the placement of logic elements and I/O blocks. A key part of the project is the timing analysis, where different combinations of pin assignments, timing constraints, and logic placement are explored in order to evaluate their impact on the propagation delay of the AND gate.
+Once the design has passed validation, pin assignments are defined using the \textit{Pin Planner}, and the physical implementation is examined through the \textit{Chip Planner} to visualize how logic elements and I/O blocks are utilized. \textbf{Timing analysis} is a crucial phase of the project; it involves assessing the effects of pin assignments, timing constraints, and logic placement on the gate's \textbf{propagation delay} ($t_{pd}$). 
 
-Several experimental configurations are considered, including automatic pin assignment with and without timing constraints, manual assignment of pins placed close to each other, and assignment of pins located far apart on the device. In some cases, explicit timing constraints are applied and progressively tightened to study how the synthesis and fitting tools adapt the placement to meet the required timing. The resulting worst-case propagation delays are analyzed and compared across the different configurations.
-
-Finally, the design is programmed onto the Cyclone~V FPGA on the DE1-SoC board and tested on real hardware. This project highlights the relationship between logical design, physical implementation, and timing performance, providing practical insight into FPGA-based digital system design.
+Several test configurations are evaluated, including automatic pin assignment (with and without timing constraints), manual clustering of pins, and manual dispersion of assigned pins. In specific cases, explicit timing constraints are applied and progressively tightened to study how synthesis and fitting tools adapt the placement. Finally, the design is programmed onto the \textbf{Intel Cyclone~V FPGA} on the \textbf{DE1-SoC~board} for real-world hardware verification.
 
 \subsection{Propagation delay measurement}
 
