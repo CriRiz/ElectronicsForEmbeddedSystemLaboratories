@@ -1,11 +1,12 @@
-\section{Introduction}
-The transition from theoretical digital logic to physical hardware implementation requires a deep understanding of the \textbf{FPGA (Field-Programmable Gate Array) design flow}. While an AND gate represents the most fundamental building block of digital systems, its implementation on a professional-grade device like the \textbf{Intel Cyclone V} involves complex considerations regarding synthesis, physical placement, and timing constraints.\\
-This project serves as a comprehensive introduction to the modern digital design cycle using \textbf{VHDL/Verilog} and professional CAD tools. The primary objective is to move beyond simple functional verification and explore the critical relationship between \textbf{logical design} and \textbf{physical performance}.
-\subsection*{Key Objectives}
-The design process is divided into three critical phases:
-\begin{itemize}
-    \item \textbf{Functional Verification:} Developing the RTL description and utilizing a dedicated testbench to ensure logical correctness through simulation.
-    \item \textbf{Physical Implementation:} Mapping the design onto the DE1-SoC board, utilizing tools like the \textit{Pin Planner} and \textit{Chip Planner} to visualize how logic elements and I/O blocks are distributed across the silicon.
-    \item \textbf{Timing Optimization:} Analyzing \textbf{propagation delay} ($t_{pd}$) by experimenting with various pin assignments and timing constraints.
+\section{Introduction} 
+The \textbf{FPGA (Field-Programmable Gate Array) design flow} is an extremely important concept to be understood given the transition from theoretical digital logic to real world implementation. Now, while an AND gate is the most simple and trivial digital building block, its implementation on a real commercial grade hardware such as the \textbf{Intel Cyclone V} is a multi-faceted problem as one has to take into account synthesis, physical placement and timing issues. The aim of this project is to gain a holistic perspective on the modern digital design cycle with the help of \textbf{VHDL/Verilog} and professional CAD design tools. In this, we seek to explore the true meaning of the relationship between \textbf{logical design} and \textbf{physical performance} as opposed to simplistic functional verification. 
+
+\subsection*{Key Objectives} 
+In the design, we undertake 3 major phases of design. They include: 
+
+\begin{itemize} 
+    \item \textbf{Functional Verification:} The logic is verified through the use of a testbench and simulation to confirm that the design is working. This is done through the development of an RTL description. 
+    \item \textbf{Physical Implementation:} This involves the use of the \textit{Pin Planner} and \textit{Chip Planner} to perform logic distribution map and I/O block distribution map on the DE1-SoC board and to visualize the mapping of the design to the board. 
+    \item \textbf{Timing Optimization:} This takes into account the \textbf{Propagation Delay} ($t_{pd}$) and involves trying different pin assignments and various timing constraints. 
 \end{itemize}
-By comparing different hardware configurations—such as automatic vs. manual pin placement and varying distances between I/O pins—this project demonstrates how physical routing and synthesis constraints directly impact the speed and reliability of a digital circuit.
+As demonstrated in this project, the comparison of different hardware configurations like automatic and manual pin placement, and different distances between input-output pins shows how the physical routing and the rules of synthesis affect the performance and the robustness of the digital circuit.
