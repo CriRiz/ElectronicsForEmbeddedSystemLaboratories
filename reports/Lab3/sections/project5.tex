@@ -1,20 +1,12 @@
 \subsection{Project \#5}
-This project deals again with the UART peripheral of the DE1-Soc board, this time polling technique was chosen. 
-So as requested the baudrate was configured to 2400 and the interrupts were disabled through CONTROL register.
+This project deals again with the UART peripheral of the DE1-Soc board, this time polling technique was chosen.\\
+So as requested the baudrate was configured to 2400 and the interrupts were disabled through CONTROL register.\\
 To monitor the device PuTTY can be used, without flow control and obiously configured to the same baudrate of UART(PuTTY config: 2400,8E1).
-
 \subsubsection{Scenario \#1}
 The code below can read the ASCII values present in RXDATA register and print the corresponding characters to stdout.
 It can be noticed that it continuosly check the RRDY bit in the STATUS register in order to see if data are available.
 
 \begin{minted}{c}
-#define UART_0_BASE 0x8001060
-#define UART_0_RX_REG (UART_0_BASE + 0)
-#define UART_0_TX_REG (UART_0_BASE + 4)
-#define UART_0_ST_REG (UART_0_BASE + 8)
-#define UART_0_CNT_REG (UART_0_BASE + 12)
-#define UART_0_DIV_REG (UART_0_BASE + 16)
-
 #define RRDY_MASK       (1 << 7)   // Receive Ready
 #define TRDY_MASK       (1 << 6)   // Transmit Ready
 
@@ -66,10 +58,10 @@ As shown above, the program prints the status register before and after the read
   STATUS after RX:  0000000101111100
   Received Character: 'g' (ASCII=103)
 \end{minted}
-On the oscilloscope are plotted first the UARTRX and second the RRDY pulse, the latter is received at the end of the full transmission(figure \ref{fig:P51OS}).
+On the oscilloscope are plotted first the UARTRX and second the RRDY pulse, the latter is received at the end of the full transmission (Figure~\ref{fig:P51OS}).
 
 \subsubsection{Scenario \#2}
-Now the above exercise is repeated but this time assuming the RRDY bit of the status register is always set and so it is not necessary to check çit.
+Now the above exercise is repeated but this time assuming the RRDY bit of the status register is always set and so it is not necessary to check it.
 
 \begin{minted}{c}
 
@@ -108,4 +100,4 @@ int main() {
   return 0;
 }
 \end{minted}
-Looking to the oscilloscope, a pulse is received after every full transmission(figure \ref{fig:P52OS}).
+Looking to the oscilloscope, a pulse is received after every full transmission (Figure~\ref{fig:P52OS}).

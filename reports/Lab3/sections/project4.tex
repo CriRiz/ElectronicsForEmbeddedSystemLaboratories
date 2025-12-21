@@ -1,8 +1,7 @@
 \subsection{Project \#4}
 \subsubsection{Scenario \#1}
 This project implements multiple chars transmissions. Previously, messages were sent without waiting the TRDY flag in the control register, which made the procedure prone to communication errors.
-
-\begin{minted}[linenos]{c}
+\begin{minted}[linenos, mathescape]{c}
 int main() {
   char msg[50] = "My name is Gianluca";
 
@@ -10,10 +9,6 @@ int main() {
   volatile uint32_t *ptr_sts = (volatile uint32_t *)UART_0_ST_REG;
 
   // Configuration
-
-  // The UART core's parity, data bits and stop bits are configurable.
-  // These settings are fixed at system generation time; they cannot
-  // be altered via the register file !!
 
   *ptr_div |= (uint16_t)0x5160; // This configures BR to 2400
 
@@ -35,4 +30,4 @@ int main() {
   return 0;
 }
 \end{minted}
-By setting the time scale to 10 ms, as shown below, the entire UART transmission is visible (\ref{fig:proj4})
+By setting the time scale to 10 ms, as shown below, the entire UART transmission is visible in Figure~\ref{fig:proj4}

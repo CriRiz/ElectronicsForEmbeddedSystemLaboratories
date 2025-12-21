@@ -2,12 +2,7 @@
 
 \section{Introduction}
 
-In this laboratory session, the main objective was to handle the UART protocol dealing directly with the hardware registers. The Cyclone V implements the UART protocol for both receiving and transmitting data, it interfaces with a terminal emulator program on a PC.
-\begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=0.95\textwidth]{figures/Interface.png}
-	\end{center}
-\end{figure}~\\
+In this laboratory session, the main objective was to handle the UART protocol dealing directly with the hardware registers. The Cyclone V implements the UART protocol for both receiving and transmitting data, it interfaces with a terminal emulator program on a PC, as shown in Figure~\ref{fig:I1}.\\
 The same configuration of the previous laboratory (laboratory \#2) was used, except for the following changes
 \begin{enumerate}
 	\item The \textit{altera\_avalon\_uart\_driver} was disabled in the Board Support Package (BSP)
@@ -20,14 +15,7 @@ The UART was configured accordingly to the following parameters:
 	\item Stop bits = 1
 	\item Parity = Even
 \end{itemize}
-These register were manipulated to handle the UART behaviour:
-\begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=0.95\textwidth]{figures/UART configuration.png}
-	\end{center}
-	\caption{UART register configuration.}
-	\label{fig:uart_config}
-\end{figure}~\\
+The registers showed in Figure~\ref{fig:uart_config} were manipulated to handle the UART behaviour.\\
 As reported by the \textit{Embedded Peripherals IP User Guide} the addresses of these registers are
 \begin{itemize}
 	\item rxdata - 0x08001060

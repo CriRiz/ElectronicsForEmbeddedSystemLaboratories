@@ -1,10 +1,7 @@
 \subsection{Project \#5}
-
 In this project it is performed the reception and transmission of a char over a 8N1 UART implemented driving GPIOs via software. The interface is emulated using the pin configuration shown in [REFERENCE].\\
 This is a time optimized code to enable communication between the PC and the FPGA
 \begin{minted}{c}
-#define BAUDRATE 110
-
 int main() {
     int ticks_per_sec = alt_timestamp_freq();
     int ticks_per_bit = ticks_per_sec / BAUDRATE;
@@ -135,7 +132,7 @@ int main() {
 \end{minted}
 The baud rates values considered were 110, 150, 300, 1200, 2400, 4800, 9600, 19200.\\
 PuTTY \cite{PuTTY} failed to establish a UART connection for the lowest values of baud rates. As an  alternative, tio \cite{tio} was used, which successfully connected.
-However, the readings were wrong, as evidenced by (\ref{fig:br110}) and (\ref{fig:br150}). It is clear how the TX and RX are completely different. Why? TODO \\
+However, the readings were wrong, as evidenced by (\ref{fig:br110}) and (\ref{fig:br150}). It is clear how the TX and RX are completely different.\\
 For baud rates above 150 and up to 9600, transmission and reception are correct, as represented by (\ref{fig:br300}), (\ref{fig:br1200}), (\ref{fig:br2400}), (\ref{fig:br4800}) and (\ref{fig:br9600}).\\
 Since 19200 the sampling becomes unreliable. From (\ref{fig:br19200comp}) it is easy to understand that:
 \begin{itemize}

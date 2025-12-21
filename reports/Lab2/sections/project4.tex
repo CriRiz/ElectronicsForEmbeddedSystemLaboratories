@@ -1,9 +1,6 @@
 \subsection{Project \#4}
-
-The project 4's main purpose is to create an UART receiver with software and test it sending characters from computer tool PuTTY on the Cyclone V board.\\
-
-To do so it been first defined the following costans at the beginning of the code:
-
+The project 4's main purpose is to create an UART receiver with software and test it sending characters from PuTTY to the Cyclone V board.\\
+To do so, it been first defined the following costans at the beginning of the code:
 \begin{listing}[ht]
 \begin{minted}[linenos]{c}
 #define NBIT        8
@@ -16,22 +13,14 @@ To do so it been first defined the following costans at the beginning of the cod
 \caption{Constants}
 \label{lst:Const}
 \end{listing}
-
 In this project it was not used a parity bit, so each transmission consists of exactly 10 bits: 1 start bit, 8 data bits, and 1 stop bit.
-
 \subsubsection{Version \#1}
-
-In order to create an UART receiver the focus is on the UART's message structure.
-
-\begin{listing}[ht]
+In order to create an UART receiver the focus is on the UART's message structure.\\
 \begin{minted}[linenos]{c}
 #define BAUDRATE 300
-
 int main() {
-
     int ticks_per_sec = alt_timestamp_freq();
     int ticks_per_bit = ticks_per_sec / BAUDRATE;
-
     int c[NBIT];
     int val;
 
@@ -79,23 +68,17 @@ int main() {
     return 0;
 }
 \end{minted}
-\caption{Version\_1}
-\label{lst:V1}
-\end{listing}
-
+\captionof{listing}{Version\_1}
+\label{lst:V1}~\\
 The code first waits for the start bit. The default state of the UART line is 1, so the start bit is represented by 0. 
-To ensure that it is not an error, the code rereads the line state after half a bit period (see line 22 of \ref{lst:V1}). 
-If it is indeed the start bit, it computes the sampling times and then begins sampling the other 8 data bits of the character encoded in ASCII, as shown in the for loop on line 31.\\
-In line 38 in the end it makes sure that the trasmission ends with a stop bit (equal to 1) and then it rebuilds the character (for loop in line 45).\\
+To ensure that it is not an error, the code reads the line state after half a bit period (see line 22 of \ref{lst:V1}). 
+If the check passed, the FPGA computes the sampling times and then begins sampling the other 8 data bits of the character encoded in ASCII, as shown in the for loop on line 31.\\
+The 38th line makes sure that the trasmission ends with a stop bit (equal to 1) and then it builds the character (for loop in line 45).\\
 
 \subsection{Version \#2}
 In \ref{lst:V1} the code use a for loop to read the 8 char bit trasmitted by UART. The branch instructions used by for loop can slow down execution.\\
 For this reason the \ref{lst:V2} uses loop unrolling to improve performance:
-
-\begin{listing}[ht]
 \begin{minted}[linenos]{c}
-#define BAUDRATE 300
-
 int main() {
 
     int ticks_per_sec = alt_timestamp_freq();
@@ -176,12 +159,9 @@ int main() {
 
         printf("Ricevuto: %c (0x%02X) (%d) (%d%d%d%d%d%d%d%d)\n", result, result, result, c[7], c[6], c[5], c[4], c[3], c[2], c[1], c[0]);
     }
-
     return 0;
 }
 \end{minted}
-\caption{Version\_2}
-\label{lst:V2}
-\end{listing}
-
-Thanks to this approach the compiler avoids repeated branch instructions, making the code faster and more efficient than \ref{lst:V1}.
+\captionof{listing}{Version\_2}
+\label{lst:V2}~\\
+Thanks to this approach the compiler avoids repeated branch instructions, making the code faster and more efficient than Listing~\ref{lst:V1}.

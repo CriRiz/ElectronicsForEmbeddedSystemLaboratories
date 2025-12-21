@@ -1,7 +1,6 @@
 \subsection{Project \#1}
-To start the experience, the iconic hello world program to check that it is running.
-
-\begin{minted}{c}
+To start the experience, the "Hello world" program is run.
+\begin{minted}[linenos]{c}
 #include <stdio.h>
 #include "system.h"
 #include "sys/alt_timestamp.h"
@@ -14,7 +13,6 @@ int main()
   return 0;
 }
 \end{minted}
-The above program is running on the hardware described in VHDL files and flashed to the fpga.
-But how the Software and Hardware are able to work together after the flash of the cpu project?
-Everything is done by the BSP that work as an Hardware Abstraction Layer which is generated based on the instantiation of the different peripherals and components
-with other informations, all available on the SOPC file, in this case the nios\_hps\_system.sopcinfo.
+The above program is running on the hardware described in VHDL files and flashed to the FPGA.\\
+In order to make Software and Hardware able to work together is necessary the BSP. This work as an Hardware Abstraction Layer which is generated based on the instantiation of the different peripherals and components
+with other informations, all available on the SOPC file, in this case the \textit{nios\_hps\_system.sopcinfo}.
