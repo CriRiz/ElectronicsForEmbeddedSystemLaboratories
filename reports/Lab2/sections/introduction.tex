@@ -1,21 +1,20 @@
-\section{Introduction}
+\section*{Introduction}
 
-This lab deals with the creation, configuration, and execution of an embedded system predicated on the \textbf{Nios II soft-core processor} on the \textbf{Intel Cyclone V FPGA (DE1-SoC board)}. The main goal is to develop and implement an interface unit between the desktop and the FPGA system using the \textbf{UART (Universal Asynchronous Receiver-Transmitter)} protocol. Unlike higher level systems where the interface is abstracted away as an operating system driver, this project experimentally investigates the \textbf{"bit-banging"} and low-level hardware approach. 
+This lab focuses on creating, configuring, and running an embedded system based on the Nios II soft-core processor on the Intel Cyclone V FPGA (DE1-SoC board). The main goal is to build an interface unit that connects the desktop and the FPGA system using the UART (Universal Asynchronous Receiver-Transmitter) protocol. Unlike higher-level systems where the interface is managed by an operating system driver, this project investigates "bit-banging" and a low-level hardware approach.
 
-The project uses the \textbf{General Purpose I/O (GPIO)} pins to sample and drive the wire line UART signals. This work attempts to explain the relation of software and hardware, specifically the execution of the software and the timing of the physical signals.
+The project uses General Purpose I/O (GPIO) pins to sample and send the wire line UART signals. This work aims to clarify the relationship between software and hardware, especially how software execution and the timing of physical signals interact. 
 
-\subsection*{Educational Objectives}
-The educational progression starts with a simple \textbf{"Hello World"} system and moves to more complex implementations, including a standalone \textbf{UART receiver} capable of functioning with a variety of baud rates. The design of the lab allows for the validation of the system and the study of various signals in real time using an \textbf{oscilloscope}. This enables the study of embedded real-time systems where timing and precise control of the processor are critical, allowing for the direct observation of \textbf{start/stop bits}, parity bits, and propagation delays.
+\section*{Educational Objectives}
+The educational journey begins with a simple "Hello World" system and progresses to more complex tasks. This includes a standalone UART receiver that can work with different baud rates. The lab design allows for system validation and the real-time study of various signals using an oscilloscope. This setup enables the examination of embedded real-time systems where timing and precise control of the processor are crucial. It allows for the direct observation of start/stop bits, parity bits, and propagation delays. 
 
-
-\subsection*{System Configuration and Setup}
-The implementation on the \textbf{DE1-SoC} board requires a specific configuration to bridge the ARM-based Hard Processor System (HPS) and the FPGA fabric:
+\section*{System Configuration and Setup}
+Implementing on the DE1-SoC board requires a specific setup to connect the ARM-based Hard Processor System (HPS) and the FPGA fabric: 
 
 \begin{itemize}
-    \item \textbf{Hardware Initial Boot:} A MicroSD card must be inserted \textit{before} power-on to allow the ARM HPS to route the UART lines to the FPGA. The setup requires both a \textbf{USB Blaster} (for JTAG programming/console) and a \textbf{Mini-USB} cable for UART communication. 
-    \item \textbf{Board Settings:} The manual switch \textbf{SW(9)} must be set to \textbf{0} to activate the software UART mode.
-    \item \textbf{System Architecture:} The design utilizes a \textbf{Nios II/e} soft-core processor integrated via \textit{Platform Designer}. Since no hardware UART block is used, the system relies entirely on \textbf{bit-banging} through GPIO pins.
-    \item \textbf{Software \& BSP Settings:} In the \textit{BSP Editor}, the \texttt{stdout} must be mapped to \texttt{jtag\_uart\_0} and the \texttt{timestamp\_timer} to \texttt{timer\_0}.
-    \item \textbf{Implementation Logic:} The C code is designed to detect the \textbf{Start Bit}, pause for $0.5$ bit-time to sample at the midpoint of the pulse, and subsequently loop through the data bits using the high-resolution timer.
-    \item \textbf{Debugging:} \textbf{GPIO header pins} are used in conjunction with an oscilloscope to verify real-time timing, start/stop bits, and propagation delays.
+    \item \textbf{Hardware Initial Boot:} Placement of the MicroSD card has to be done before turning the hardware on for the first time. This enables the ARM HPS to route the UART lines to the FPGA. 
+    \item \textbf{Board Settings:} The manual switch SW(9) is set to 0 to enable software UART mode. 
+    \item \textbf{System Architecture:} The design uses a Nios II/e soft-core processor integrated through Platform Designer. Since there is no hardware UART block available, the system entirely relies on bit-banging using GPIO pins. 
+    \item \textbf{Software \& BSP Settings:} In the BSP Editor, \texttt{stdout} is mapped to \texttt{jtag\_uart\_0} and the \texttt{timestamp\_timer} to \texttt{timer\_0}. 
+    \item \textbf{Implementation Logic:} The C code is designed to detect the Start Bit, pause for 0.5 bit-time to sample at the midpoint of the pulse, and then loop through the data bits using a high-resolution timer. 
+    \item \textbf{Debugging:} we used an oscilloscope with GPIO header pins to check real-time timing, start/stop bits and propagation delays.
 \end{itemize}
