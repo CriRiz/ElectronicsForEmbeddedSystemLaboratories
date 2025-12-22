@@ -7,3 +7,16 @@ The project uses the \textbf{General Purpose I/O (GPIO)} pins to sample and driv
 
 \subsection*{Educational Objectives}
 The educational progression starts with a simple \textbf{"Hello World"} system and moves to more complex implementations, including a standalone \textbf{UART receiver} capable of functioning with a variety of baud rates. The design of the lab allows for the validation of the system and the study of various signals in real time using an \textbf{oscilloscope}. This enables the study of embedded real-time systems where timing and precise control of the processor are critical, allowing for the direct observation of \textbf{start/stop bits}, parity bits, and propagation delays.
+
+
+\subsection*{System Configuration and Setup}
+The implementation on the \textbf{DE1-SoC} board requires a specific configuration to bridge the ARM-based Hard Processor System (HPS) and the FPGA fabric:
+
+\begin{itemize}
+    \item \textbf{Hardware Initial Boot:} A MicroSD card must be inserted \textit{before} power-on to allow the ARM HPS to route the UART lines to the FPGA. The setup requires both a \textbf{USB Blaster} (for JTAG programming/console) and a \textbf{Mini-USB} cable for UART communication. 
+    \item \textbf{Board Settings:} The manual switch \textbf{SW(9)} must be set to \textbf{0} to activate the software UART mode.
+    \item \textbf{System Architecture:} The design utilizes a \textbf{Nios II/e} soft-core processor integrated via \textit{Platform Designer}. Since no hardware UART block is used, the system relies entirely on \textbf{bit-banging} through GPIO pins.
+    \item \textbf{Software \& BSP Settings:} In the \textit{BSP Editor}, the \texttt{stdout} must be mapped to \texttt{jtag\_uart\_0} and the \texttt{timestamp\_timer} to \texttt{timer\_0}.
+    \item \textbf{Implementation Logic:} The C code is designed to detect the \textbf{Start Bit}, pause for $0.5$ bit-time to sample at the midpoint of the pulse, and subsequently loop through the data bits using the high-resolution timer.
+    \item \textbf{Debugging:} \textbf{GPIO header pins} are used in conjunction with an oscilloscope to verify real-time timing, start/stop bits, and propagation delays.
+\end{itemize}
