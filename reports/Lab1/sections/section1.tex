@@ -1,8 +1,24 @@
 \subsection{Project \#1: AND Gate Design and Timing Analysis}
 
 
-\noindent Project~\#1 involves designing and producing a basic \textbf{AND logic gate} using a hardware description language (\textbf{VHDL} or \textbf{Verilog}). The first step involves initializing a new project and preparing the source files, which contain both the logic description for the gate and a corresponding \textbf{testbench}. After performing a syntax check and compiling the project, the design logic is verified via \textbf{simulation} to ensure it behaves as intended before hardware implementation.
+\noindent The design and production of a basic \textbf{AND logic gate} are tackled using a hardware description language (\textbf{VHDL} or \textbf{Verilog}). The first step involves initializing a new project and preparing the source files, which contain both the logic description for the gate and a corresponding \textbf{testbench}. After performing a syntax check and compiling the project, the design logic is verified via \textbf{simulation} to ensure it behaves as intended before hardware implementation.
 
+\begin{minted}[linenos]{c}
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY myAnd IS
+	PORT(
+		a: IN std_logic;
+		b: IN std_logic;
+		y: OUT std_logic);
+END ENTITY myAnd;
+
+ARCHITECTURE df OF myAnd IS
+BEGIN
+	y <= a AND b;
+END ARCHITECTURE df;
+\end{minted}
 Once the design has passed validation, pin assignments are defined using the \textit{Pin Planner}, and the physical implementation is examined through the \textit{Chip Planner} to visualize how logic elements and I/O blocks are utilized. \textbf{Timing analysis} is a crucial phase of the project; it involves assessing the effects of pin assignments, timing constraints, and logic placement on the gate's \textbf{propagation delay} ($t_{pd}$). 
 
 Several test configurations are evaluated, including automatic pin assignment (with and without timing constraints), manual clustering of pins, and manual dispersion of assigned pins. In specific cases, explicit timing constraints are applied and progressively tightened to study how synthesis and fitting tools adapt the placement. Finally, the design is programmed onto the \textbf{Intel Cyclone~V FPGA} on the \textbf{DE1-SoC~board} for real-world hardware verification.

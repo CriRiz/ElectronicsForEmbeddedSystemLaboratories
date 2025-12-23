@@ -1,6 +1,6 @@
 \subsection{Project \#4}
 The project 4's main purpose is to create an UART receiver with software and test it sending characters from PuTTY to the Cyclone V board.\\
-To do so, it been first defined the following costans at the beginning of the code:
+To do so, it been first defined the following costants at the beginning of the code:
 \begin{listing}[ht]
 \begin{minted}[linenos]{c}
 #define NBIT        8
@@ -54,15 +54,14 @@ int main() {
         val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
 
         if (val != 1) {
-            printf("ERRORE: stop bit non valido!\n");
+            printf("ERROR: stop bit not valid!\n");
             continue;
 
         int result = 0;
         for (int i = 0; i < NBIT; i++)
-            // | è l'operatore OR bit a bit
             result |= (c[i] << i);
 
-        printf("Ricevuto: %c (0x%02X) (%d)\n", result, result, result);
+        printf("Received: %c (0x%02X) (%d)\n", result, result, result);
     }
 
     return 0;
@@ -98,7 +97,7 @@ int main() {
         alt_timestamp_start();
         while (alt_timestamp() < (ticks_per_bit >> 1)) {}
 
-        // Controllo sull'effettivo start
+        // Check on the start
         val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
         if (val != 0) {
             continue;
@@ -109,8 +108,8 @@ int main() {
         for (int i = 0; i < NBIT + NSTOPBIT; i++)
             sample_times[i] = (i + 1) * ticks_per_bit;
 
-        //-----------------------------------------
-        // 4. Leggi i bit di DATA - loop unrolling
+
+        // 4. reads DATA's bits - loop unrolling
 
             while (alt_timestamp() < sample_times[0]) {}
             val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
@@ -148,16 +147,15 @@ int main() {
         val = IORD_ALTERA_AVALON_PIO_DATA(NIOS_UARTRX_BASE) & 0x01;
 
         if (val != 1) {
-            printf("ERRORE: stop bit non valido!\n");
+            printf("ERROR: stop bit not valid!\n");
             continue;
         }
 
         int result = 0;
         for (int i = 0; i < NBIT; i++)
-            // | è l'operatore OR bit a bit
             result |= (c[i] << i);
 
-        printf("Ricevuto: %c (0x%02X) (%d) (%d%d%d%d%d%d%d%d)\n", result, result, result, c[7], c[6], c[5], c[4], c[3], c[2], c[1], c[0]);
+        printf("Received: %c (0x%02X) (%d) (%d%d%d%d%d%d%d%d)\n", result, result, result, c[7], c[6], c[5], c[4], c[3], c[2], c[1], c[0]);
     }
     return 0;
 }
