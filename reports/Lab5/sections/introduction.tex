@@ -1,1 +1,25 @@
 \section{Introduction}
+This last laboratory session deals with PWM signals and their possible applications.
+The Role of PWM signals is to drive a device, for instance a LED, and regulate its behaviour by changing the Duty cycle of the input signal coming from the PWM generator.
+The PWM system used in the laboratory consists of:
+\begin{itemize}
+  \item 12bit prescaler
+  \item 8bit counter 
+  \item 8bit register
+  \item comparator
+\end{itemize}
+A 12bit prescaler divides a clock, based on the DIVISOR value, in our case divides the 50MHz clock of the DE1-SoC and change the frequency of the PWM.
+The counter can be initialized to a maximum value called MAXCNT, its content is compared with the value contained in the register.
+Then the PWM output is given following the result of the comparator, when the value on the counter is less than the value on the register it outputs a '1' else '0'.
+Usefull formula below:
+
+$$f_{\text{counter}} = \frac{f_{\text{clock}}}{\text{DIVISOR} + 1}$$
+$$f_{\text{PWM}} = \frac{f_{\text{counter}}}{\text{MAXCNT} + 1} = \frac{f_{\text{clock}}}{(\text{DIVISOR} + 1)(\text{MAXCNT} + 1)}$$
+$$t_{\text{PWM}} = \frac{1}{f_{\text{PWM}}}$$\\
+Since the PWM system is described in vhdl and is running on the DE1-SoC, the commands of it are mapped on the switches and buttons present on the board.
+The Exercises handled in this laboratory section are:
+\begin{enumerate}
+  \item PWM signal check
+  \item Drive an LED with a BJT transistor
+  \item Transistor delays
+\end{enumerate}
