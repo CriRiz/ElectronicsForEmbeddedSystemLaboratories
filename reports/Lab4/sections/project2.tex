@@ -1,0 +1,34 @@
+\section{Project 2}
+
+\subsection{Static Measurements}
+The following table summarizes the 32 measurements obtained by varying the 5 MSBs of the digital input. The values were measured using a digital multimeter at the Red channel (Pin 1) of the VGA connector.
+
+\begin{table}[h!]
+\centering
+\caption{DAC Output Voltage Measurements}
+\begin{tabular}{cc|cc|cc|cc}
+\textbf{Binary} & \textbf{V [mV]} & \textbf{Binary} & \textbf{V [mV]} & \textbf{Binary} & \textbf{V [mV]} & \textbf{Binary} & \textbf{V [mV]} \\
+00000 & 0.00   & 01000 & 333.47 & 10000 & 666.26 & 11000 & 998.86 \\
+00001 & 41.60  & 01001 & 375.08 & 10001 & 707.80 & 11001 & 1040.28 \\
+00010 & 83.39  & 01010 & 416.69 & 10010 & 749.50 & 11010 & 1081.79 \\
+00011 & 125.36 & 01011 & 458.29 & 10011 & 791.05 & 11011 & 1123.20 \\
+01000 & 166.70 & 01100 & 499.98 & 10100 & 832.71 & 11100 & 1164.70 \\
+01001 & 208.35 & 01101 & 541.56 & 10101 & 874.24 & 11101 & 1206.00 \\
+01010 & 250.12 & 01110 & 583.07 & 10110 & 915.86 & 11110 & 1247.50 \\
+01011 & 291.71 & 01111 & 624.63 & 10111 & 957.36 & 11111 & 1288.70 \\
+\end{tabular}
+\end{table}
+
+\subsection{Linearity and Error Analysis}
+From the data, the full-scale voltage ($V_{FS}$) is approximately $1288.70$ mV. 
+The ideal step for the 5-bit increments (which corresponds to a digital step of 8 in an 8-bit scale) is calculated as:
+\begin{equation}
+    \Delta V_{step} = \frac{V_{max} - V_{min}}{31} = \frac{1288.70 - 0}{31} \approx 41.57 \text{ mV}
+\end{equation}
+
+The actual LSB of the 8-bit representation is:
+\begin{equation}
+    V_{LSB\_8bit} = \frac{\Delta V_{step}}{8} \approx 5.19 \text{ mV}
+\end{equation}
+
+Comparing the measured step ($\approx 41.6$ mV) with the theoretical one, the DAC shows an extremely high degree of linearity. The maximum deviation from the linear fit is minimal, indicating low Integral Non-Linearity (INL).
