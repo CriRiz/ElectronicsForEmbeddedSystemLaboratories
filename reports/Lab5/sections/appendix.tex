@@ -1,5 +1,97 @@
 \section{Appendix}
 
+
+% -- 1st project
+
+\begin{table}[h!]
+    \hspace*{-1.5cm}
+\scriptsize % Ridotto il font per far stare tutte le colonne nella pagina
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{$f_{clk}$} & \textbf{$f_{pwm}$} & \textbf{$n_{\delta}$} & \textbf{$\delta$} & \multicolumn{2}{c|}{\textbf{MAXCNT}} & \multicolumn{2}{c|}{\textbf{DIVISOR}} & \multicolumn{2}{c|}{\textbf{REGISTER}} & \textbf{$t_{pwm}$} & \textbf{$t_{on}$} & \textbf{$t_{off}$} & \textbf{$f_{triangle}$} & \textbf{$V_H$} & \textbf{$V_L$} \\ \cline{5-10}
+    (MHz) & (Hz) & & & dec. & bin. & dec. & bin. & dec. & bin. & (s) & (s) & (s) & (Hz) & (V) & (V) \\ \hline
+50 & 10000 & 12 & 20\% & 10 & 1010 & 454 & 11101 & 3 & 11 & 0.0001 & 0.00002 & 0.00008 & 454.5455 & 3.3 & 0 \\ \hline
+50 & 10000 & 12 & 50\% & 10 & 1010 & 454 & 11101 & 6 & 110 & 0.0001 & 0.00005 & 0.00005 & 454.5455 & 3.3 & 0 \\ \hline
+50 & 10000 & 12 & 80\% & 10 & 1010 & 454 & 11101 & 9 & 1001 & 0.0001 & 0.00008 & 0.00002 & 454.5455 & 3.3 & 0 \\ \hline
+50 & 10000 & 100 & 20\% & 98 & 1100010 & 50 & 110010 & 20 & 10100 & 0.0001 & 0.00002 & 0.00008 & 50.50505 & 3.3 & 0 \\ \hline
+50 & 10000 & 100 & 50\% & 98 & 1100010 & 50 & 110010 & 50 & 110010 & 0.0001 & 0.00005 & 0.00005 & 50.50505 & 3.3 & 0 \\ \hline
+50 & 10000 & 100 & 80\% & 98 & 1100010 & 50 & 110010 & 80 & 1010000 & 0.0001 & 0.00008 & 0.00002 & 50.50505 & 3.3 & 0\\ \hline
+
+\end{tabular}
+\caption{Computated values}
+\label{tab:comp}
+\end{table}
+
+\begin{table}[h!]
+    \hspace*{-1.5cm}
+\scriptsize % Ridotto il font per far stare tutte le colonne nella pagina
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{$f_{clk}$} & \textbf{$f_{pwm}$} & \textbf{$n_{\delta}$} & \textbf{$\delta$} & \multicolumn{2}{c|}{\textbf{MAXCNT}} & \multicolumn{2}{c|}{\textbf{DIVISOR}} & \multicolumn{2}{c|}{\textbf{REGISTER}} & \textbf{$t_{pwm}$} & \textbf{$t_{on}$} & \textbf{$t_{off}$} & \textbf{$f_{triangle}$} & \textbf{$V_H$} & \textbf{$V_L$} \\ \cline{5-10}
+    (MHz) & (Hz) & & & dec. & bin. & dec. & bin. & dec. & bin. & (s) & (s) & (s) & (Hz) & (V) & (V) \\ \hline
+50 & 10000 & 12 & 20\% & 10 & 1010 & 454 & 11101 & 3 & 11 & 0.000104 & 0.000028 & 0.000076 & 454.5455 & 3.3 & 0 \\ \hline
+50 & 10000 & 12 & 50\% & 10 & 1010 & 454 & 11101 & 6 & 110 & 0.000098 & 0.000052 & 0.000046 & 454.5455 & 3.3 & 0 \\ \hline
+50 & 10000 & 12 & 80\% & 10 & 1010 & 454 & 11101 & 9 & 1001 & 0.000102 & 0.000084 & 0.000018 & 454.5455 & 3.3 & 0 \\ \hline
+50 & 10000 & 100 & 20\% & 98 & 1100010 & 50 & 110010 & 20 & 10100 &  & & & 50.50505 & 3.3 & 0 \\ \hline
+50 & 10000 & 100 & 50\% & 98 & 1100010 & 50 & 110010 & 50 & 110010 & & & & 50.50505 & 3.3 & 0 \\ \hline
+50 & 10000 & 100 & 80\% & 98 & 1100010 & 50 & 110010 & 80 & 1010000 & & & & 50.50505 & 3.3 & 0\\ \hline
+\end{tabular}
+\caption{Experimental values}
+    \label{tab:exp}
+\end{table}
+
+\begin{figure}[h!]
+    \centering
+    % Prima riga di immagini
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/n12d20.png} % Sostituisci con il nome del tuo file reale
+        \caption{$\delta = 20\%$, $n_\delta = 12$}
+        \label{fig:osc1}
+    \end{subfigure}
+    \hfill % Spazio orizzontale tra le immagini
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/n12d50.png} % Sostituisci con il nome del tuo file reale
+        \caption{$\delta = 50\%$, $n_\delta = 12$}
+        \label{fig:osc2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/n12d80.png} % Sostituisci con il nome del tuo file reale
+        \caption{$\delta = 80\%$, $n_\delta = 12$}
+        \label{fig:n12d80}
+    \end{subfigure}
+
+    \vspace{1em} % Spazio verticale tra le righe
+
+    % Seconda riga di immagini
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/n100d20.png} % Sostituisci con il nome del tuo file reale
+        \caption{$\delta = 20\%$, $n_\delta = 100$}
+        \label{fig:osc4}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/n100d50.png} % Sostituisci con il nome del tuo file reale
+        \caption{$\delta = 50\%$, $n_\delta = 100$}
+        \label{fig:osc5}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/n100d80.png} % Sostituisci con il nome del tuo file reale
+        \caption{$\delta = 80\%$, $n_\delta = 100$}
+        \label{fig:osc6}
+    \end{subfigure}
+    \label{fig:all}
+\end{figure}
+
+
+
 %Project #2
 \begin{figure}[h]
     \centering
@@ -43,3 +135,4 @@
     \caption{Electrical parameters and operating values}
     \label{tab:electrical_parameters_rotated}
 \end{table}
+

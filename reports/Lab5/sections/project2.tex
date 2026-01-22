@@ -1,30 +1,25 @@
 \subsection{Project \#2}
 
 The aim of this project is to link the cyclone board with the previous configuration with the circuit illustrated in figure \ref{fig:Circuit linked with the board} to light a red led throught a BJT transistor.\\
-
-To achieve this, the resistances $R_c$ and $R_B$ are calculated.
-To do so the led voltage was kept from the L\_1513SRC-E datasheet as illustrated by the graph in figure \ref{fig:L_1513SRC-E datasheet graph} and the BJT's voltages were kept from the 2N2222A datasheet (figure \ref{fig:2N2222A datasheet voltages}).
-
+To achieve this, the resistances $R_c$ and $R_B$ are calculated.\\
+To do so the led voltage was kept from the L\_1513SRC-E datasheet as illustrated by the graph in figure \ref{fig:L_1513SRC-E datasheet graph} and the BJT's voltages were kept from the 2N2222A datasheet (figure \ref{fig:2N2222A datasheet voltages}).\\
 Ultimately, all of the data are:
 \begin{itemize}
     \item $V_{led} = 1.85V$
     \item $V_{CE_{SAT}}=0.3V$
-    \item $V_{BE_{SATmin}}=0.6$
-    \item $V_{BE_{SATmax}}=1.2$
+    \item $V_{BE_{SATmin}}=0.6V$
+    \item $V_{BE_{SATmax}}=1.2V$
     \item $V_{dd}=3.3V$
     \item $V_{L}=12V$
     \item $I_B=16mA$
     \item $I_c=20mA$
 \end{itemize}
-
-Using all these data, the resistances were calculated with the formulas shown below:
-
-$R_C = \frac{V_L-V_{CE_{SAT}}-V_{led}}{I_C}=492.5\Omega \simeq 500 \Omega$ \\
-$R_{B_{MAX}}= \frac{V_{dd}-V_{BE_{SATmin}}}{I_B} = 168.7 \Omega$\\
-$R_{B_{MIN}}= \frac{V_{dd}-V_{BE_{SATmax}}}{I_B} = 131.2 \Omega$\\
-
+Using all these data, the resistances were calculated with the formulas shown below:\\
+\begin{itemize}
+    \item $R_C = \frac{V_L-V_{CE_{SAT}}-V_{led}}{I_C}=492.5\Omega \simeq 500 \Omega$ \\
+    \item $R_{B_{MAX}}= \frac{V_{dd}-V_{BE_{SATmin}}}{I_B} = 168.7 \Omega$\\
+    \item $R_{B_{MIN}}= \frac{V_{dd}-V_{BE_{SATmax}}}{I_B} = 131.2 \Omega$\\
+\end{itemize}
 According to all the results, it was chosen to use for $R_c$ a $560 \Omega$ resistor and for $R_B$ a $150 \Omega$ resistor.\\
-
 Using the oscilloscope and the tester, we measured values illustrated in table \ref{tab:electrical_parameters_rotated}.
-
 In the table, the measured high and low voltage levels differ from those in project \#1. This is because the GPIO current now flows into the BJT transistor through the resistor \(R_B\). As a result, there is an additional voltage drop, which lowers \(V_h\). Moreover, \(V_l\) is slightly higher due to non-ideal behavior and leakage currents.
