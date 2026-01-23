@@ -1,0 +1,40 @@
+\section{Project \#3}
+\subsection{Objectives}
+The objective of this project is to characterize the switching performance of a 2N2222A BJT under PWM signal control. The study evaluates the impact of transistor saturation on switching delays and analyzes the effectiveness of speed-up techniques, specifically the Baker Clamp and the speed-up capacitor.
+
+\subsection{Experimental Setup}
+The experimental circuit was implemented using the following components:
+\begin{itemize}
+    \item \textbf{PWM Source}: Generated via the DE1-SoC FPGA board ($f_{clk} = 50$ MHz).
+    \item \textbf{Transistor}: "2N2222A NPN BJT in a low-side switch configuration.
+    \item \textbf{Load}: A resistive load connected to the collector.
+    \item \textbf{Instrumentation}: A dual-channel oscilloscope was employed to compare the PWM input (base signal) with the collector output voltage.
+\end{itemize}
+
+\subsection{Timing Measurements}
+The switching transitions were evaluated across three different circuit configurations. The results are summarized in the table below:
+
+\begin{table}[H]
+\centering
+\caption{BJT Switching Performance Comparison}
+\vspace{2mm}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Parameter} & \textbf{Standard (Nothing)} & \textbf{1N4148 Diode} & \textbf{C = 100nF} \\ \midrule
+$t_{rise}$         & 300 ns            & 240 ns                & 170 ns             \\
+$t_{fall}$         & 528 ns            & 324 ns                & 420 ns             \\
+$t_{delay\_rise}$  & 32.4 ns           & 15.2 ns               & 22.4 ns            \\
+$t_{delay\_fall}$  & 1850 ns           & 1750 ns               & 440 ns             \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\section{Technical Discussion}
+
+\subsection{Standard Configuration and Saturation}
+In the standard configuration, the turn-off delay ($t_{delay\_fall}$) is significantly greater than the turn-on delay ($t_{delay\_rise}$). This phenomenon is attributed to the deep saturation of the transistor. When the BJT saturates, excess minority carriers accumulate in the base region. Upon the transition of the input signal to a low state, the transistor continues to conduct until these stored charges are cleared. This interval is defined as the Storage Time.
+
+\subsection{Impact of the 2N2222A Diode}
+The diode is positioned between the base and the collector to prevent the transistor from reaching a deep saturation state. When the collector voltage drops, the diode becomes forward-biased and diverts surplus base current. This mechanism significantly reduces the storage time, thereby accelerating the turn-off transition.
+
+\subsection{Impact of the 100nF Speed-up Capacitor}
+The capacitor placed across $R_B$ generates a current spike during transitions. This component facilitates rapid charge injection to turn the BJT on and assists in quick charge removal during turn-off, improving the overall response of the edges.
