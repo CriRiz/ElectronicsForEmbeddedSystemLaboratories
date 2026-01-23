@@ -1,12 +1,8 @@
 \section*{Introduction}
-
-This lab focuses on creating, configuring, and running an embedded system based on the Nios II soft-core processor on the Intel Cyclone V FPGA (DE1-SoC board). The main goal is to build an interface unit that connects the desktop and the FPGA system using the UART (Universal Asynchronous Receiver-Transmitter) protocol. Unlike higher-level systems where the interface is managed by an operating system driver, this project investigates "bit-banging" and a low-level hardware approach.
-
+This lab focuses on creating, configuring, and running an embedded system based on the Nios II soft-core processor on the Intel Cyclone V FPGA (DE1-SoC board). The main goal is to build an interface unit that connects the desktop and the FPGA system using the UART (Universal Asynchronous Receiver-Transmitter) protocol. Unlike higher-level systems where the interface is managed by an operating system driver, this project investigates "bit-banging" and a low-level hardware approach.\\
 The project uses General Purpose I/O (GPIO) pins to sample and send the wire line UART signals. This work aims to clarify the relationship between software and hardware, especially how software execution and the timing of physical signals interact. 
-
 \section*{Educational Objectives}
 The educational journey begins with a simple "Hello World" system and progresses to more complex tasks. This includes a standalone UART receiver that can work with different baud rates. The lab design allows for system validation and the real-time study of various signals using an oscilloscope. This setup enables the examination of embedded real-time systems where timing and precise control of the processor are crucial. It allows for the direct observation of start/stop bits, parity bits, and propagation delays. 
-
 \section*{System Configuration and Setup}
 Implementing on the DE1-SoC board requires a specific setup to connect the ARM-based Hard Processor System (HPS) and the FPGA fabric: 
 

@@ -70,9 +70,9 @@ int main() {
 \captionof{listing}{Version\_1}
 \label{lst:V1}~\\
 The code first waits for the start bit. The default state of the UART line is 1, so the start bit is represented by 0. 
-To ensure that it is not an error, the code reads the line state after half a bit period (see line 22 of \ref{lst:V1}). 
-If the check passed, the FPGA computes the sampling times and then begins sampling the other 8 data bits of the character encoded in ASCII, as shown in the for loop on line 31.\\
-The 38th line makes sure that the trasmission ends with a stop bit (equal to 1) and then it builds the character (for loop in line 45).\\
+To ensure that it is not an error, the code reads the line state after half a bit period (see line 21 of \ref{lst:V1}). 
+If the check passed, the FPGA computes the sampling times and then begins sampling the other 8 data bits of the character encoded in ASCII, as shown in the for loop on line 28.\\
+The 38th line makes sure that the trasmission ends with a stop bit (equal to 1) and then it builds the character (for loop in line 42).\\
 
 \subsection{Version \#2}
 In \ref{lst:V1} the code use a for loop to read the 8 char bit trasmitted by UART. The branch instructions used by for loop can slow down execution.\\

@@ -4,8 +4,10 @@ Subsequently, it was compared the theoretical obtained value with the experiment
 There are differences between the real value of $T_{ON}, T_{OFF}, T_{PWM}$, these are likely due to to $n_\delta$ value. An increase of this value lead to a better precision, in fact:\\
 For $n_\delta = 12$, with experimental value:
 \begin{align*}
-    \delta = \frac{T_{ON}}{T} = 0.26 \Rightarrow 26\%
+    \delta_{\delta_n = 12} = \frac{T_{ON}}{T} = 0.26 \Rightarrow 26\%
 \end{align*}
 This result deviates from the desired duty cycle $\delta = 20\%$.\\
 In contrast, with $n_\delta = 100$, the precision improves:
-TODO
+\begin{align*}
+    \delta_{\delta_n = 100} = \frac{T_{ON}}{T} \approx 20.2\%
+\end{align*}
