@@ -3,4 +3,13 @@
 \subsection{Project \#1}
 This task requires to build a circuit on the breadboard with the LM393 comparator and connect it to oscilloscope in order to estimate the delay of the comparator and compute the maximum clock frequency of the digital circuit.
 To achieve this first the power supply is connected to one input of the comparator with value 2.5V, then signal generator to the other input with a square wave signal of frequency 50kHz and Vpp=5V, Voff=2.5V.
-Now that the comparator is correctly connected to the two sources, to oscilloscope is used to to read the delay for both rising and falling edges.  
+Now that the comparator is correctly connected to the two sources, to oscilloscope is used to read the delay for both rising and falling edges.  
+\begin{itemize}
+  \item Rising edge Vpp3: 4.5div * 50ns = 225ns
+  \item Falling edge Vpp3: 3.5div * 50ns = 175ns
+  \item Rising edge Vpp5: 4div * 50ns = 200ns
+  \item Falling edge Vpp5: 3.5div * 50ns = 175ns
+\end{itemize}
+In order to compute the maximum clock frequency of the digital circuit take the worst case scenario, the rising edge Vpp3 and convert the delay in time to frequency: 
+225ns ==> 4.4MHz \\
+images from the oscilloscope in \ref{appendix:A}.
