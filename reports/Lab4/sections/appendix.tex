@@ -33,3 +33,63 @@
     \includegraphics[width=0.9\textwidth]{img/FotoEs1.png} 
     \label{fig:fotoes1}
 \end{figure}
+\newpage
+
+\section{Project3}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+ & \textbf{4 bit} & \textbf{5 bit} & \textbf{6 bit} & \textbf{7 bit} & \textbf{8 bit} \\ \hline
+    Comparator delay & \multicolumn{5}{c|}{225 ns} \\ \hline
+    Max $f_{ck}$ & \multicolumn{5}{c|}{4.4 MHz} \\ \hline
+    DIVISOR (with fractional part) & \multicolumn{5}{c|}{4077.9} \\ \hline
+    Rounded DIVISOR (12 bits) & \multicolumn{5}{c|}{4078} \\ \hline
+    Rounded DIVISOR (8 MSB) & \multicolumn{5}{c|}{255} \\ \hline
+    Sampling frequency $f_s$  & 3065 Hz & 2452 Hz  & 2043 Hz & 1751 Hz & 1532 Hz \\ \hline
+    Max useful bandwidth $f_B$ & 1226 Hz & 980 Hz & 817 Hz & 700 Hz & 613 Hz \\ \hline
+\end{tabular}
+    \caption{Frequency values}
+    \label{tab:tabfreq}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    % Sezione 4 Bit
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/4bitSAR.png}
+        \caption{SAR ADC 4-bit}
+        \label{fig:start}
+    \end{minipage}
+    \hfill % Distribuisce lo spazio tra le minipage
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/5bitSAR.png}
+        \caption{SAR ADC 5-bit}
+    \end{minipage}
+
+    \vspace{1cm}
+    % Sezione 4 Bit
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/6bitSAR.png}
+        \caption{SAR ADC 6-bit}
+    \end{minipage}
+    \hfill % Distribuisce lo spazio tra le minipage
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/7bitSAR.png}
+        \caption{SAR ADC 7-bit}
+    \end{minipage}
+
+    \vspace{1cm}
+
+    % Sezione 8 Bit (centrata sotto le altre due)
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/8bitSAR.png}
+        \caption{SAR ADC 8-bit}
+        \label{fig:end}
+    \end{minipage}
+\end{figure}

@@ -1,0 +1,26 @@
+\section{Project 3}
+
+In this project, the complete ADC was tested joining together the comparator and DAC module. The SAR logic is implemented on the FPGA.\\
+To calculate the $f_{clk}$ of the SAR ADC, it is considered the following relation
+\begin{align*}
+    t_{clk} \ge t_{stl} + t_{logic} + t_{comp}    
+\end{align*}
+But $t_{stl}, t_{logic}$ are negligible. So the previous value $f_{clk} = 1/t_{comp} < 4.4\ MHz$ is considered.\\
+Here it is tested different number of bits on which the SAR will perform the conversion. Every changes of this value can be done through the SW0 to SW3 and the display value is represented in the two left segment displays.
+It is calculated the DIVISOR maintaing distance from the $t_{slow} \approx 220 \ ns$. It has been chosen 
+By setting DIVISOR = 4077.9, which is 255 (rounded) on the display:
+\begin{equation}
+    f_{slow} = \frac{50 MHz}{DIVISOR + 1} = 12.261\ kHz
+\end{equation}
+So $t_{slow} = 81.5\ \mu s$.\\
+For each $sar_{nbit} = N$ the value of sampling frequency will be:
+\begin{equation}
+    f_S = \frac{f_{slow}}{N}
+\end{equation}
+Finally, to evaluate the $f_B$, it was considered the Nyquist frequency to avoid overlap between replicas in the frequency domain and aliasing margin.
+\begin{equation}
+    f_B = \frac{f_S}{2.5}
+\end{equation}
+The experimental data are available in (\ref{tab:tabfreq}) and the SAR guessing action is represented in the figures (\ref{fig:start}) to (\ref{fig:end})
+
+

@@ -18,17 +18,14 @@ The following table summarizes the 32 measurements obtained by varying the 5 MSB
 01011 & 291.71 & 01111 & 624.63 & 10111 & 957.36 & 11111 & 1288.70 \\
 \end{tabular}
 \end{table}
-
 \subsection{Linearity and Error Analysis}
 From the data, the full-scale voltage ($V_{FS}$) is approximately $1288.70$ mV. 
 The ideal step for the 5-bit increments (which corresponds to a digital step of 8 in an 8-bit scale) is calculated as:
 \begin{equation}
     \Delta V_{step} = \frac{V_{max} - V_{min}}{31} = \frac{1288.70 - 0}{31} \approx 41.57 \text{ mV}
 \end{equation}
-
 The actual LSB of the 8-bit representation is:
 \begin{equation}
     V_{LSB\_8bit} = \frac{\Delta V_{step}}{8} \approx 5.19 \text{ mV}
 \end{equation}
-
 Comparing the measured step ($\approx 41.6$ mV) with the theoretical one, the DAC shows an extremely high degree of linearity. The maximum deviation from the linear fit is minimal, indicating low Integral Non-Linearity (INL).
