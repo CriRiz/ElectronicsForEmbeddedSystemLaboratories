@@ -1,6 +1,6 @@
 \section{Introduction}
 This last laboratory session deals with PWM signals and their possible applications.
-The Role of PWM signals is to drive a device, for instance a LED, and regulate its behaviour by changing the Duty cycle of the input signal coming from the PWM generator.
+The role of PWM signals is to drive a device, for instance a LED, and regulate its behaviour by changing the Duty cycle of the input signal coming from the PWM generator.
 The PWM system used in the laboratory consists of:
 \begin{itemize}
   \item 12bit prescaler
@@ -17,9 +17,9 @@ $$f_{\text{counter}} = \frac{f_{\text{clock}}}{\text{DIVISOR} + 1}$$
 $$f_{\text{PWM}} = \frac{f_{\text{counter}}}{\text{MAXCNT} + 1} = \frac{f_{\text{clock}}}{(\text{DIVISOR} + 1)(\text{MAXCNT} + 1)}$$
 $$t_{\text{PWM}} = \frac{1}{f_{\text{PWM}}}$$\\
 Since the PWM system is described in vhdl and is running on the DE1-SoC, the commands of it are mapped on the switches and buttons present on the board.
-The Exercises handled in this laboratory section are:
+The exercises handled in this laboratory section are:
 \begin{enumerate}
   \item PWM signal check
-  \item Drive an LED with a BJT transistor
+  \item Drive a LED with a BJT transistor
   \item Transistor delays
 \end{enumerate}
